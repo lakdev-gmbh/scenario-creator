@@ -9,9 +9,14 @@ use App\Orchid\Screens\Examples\ExampleFieldsScreen;
 use App\Orchid\Screens\Examples\ExampleLayoutsScreen;
 use App\Orchid\Screens\Examples\ExampleScreen;
 use App\Orchid\Screens\Examples\ExampleTextEditorsScreen;
+use App\Orchid\Screens\InfoTextEditScreen;
 use App\Orchid\Screens\PlatformScreen;
 use App\Orchid\Screens\Role\RoleEditScreen;
 use App\Orchid\Screens\Role\RoleListScreen;
+use App\Orchid\Screens\ScenarioEditScreen;
+use App\Orchid\Screens\ScenarioListScreen;
+use App\Orchid\Screens\TaskEditScreen;
+use App\Orchid\Screens\TaskGroupEditScreen;
 use App\Orchid\Screens\User\UserEditScreen;
 use App\Orchid\Screens\User\UserListScreen;
 use App\Orchid\Screens\User\UserProfileScreen;
@@ -95,3 +100,28 @@ Route::screen('roles', RoleListScreen::class)
             ->parent('platform.index')
             ->push(__('Roles'), route('platform.systems.roles'));
     });
+
+Route::screen('scenario/{scenario?}', ScenarioEditScreen::class)
+    ->name('platform.scenario.edit')
+    ->breadcrumbs(function (Trail $trail) {
+        return $trail
+            ->parent('platform.scenario.list')
+            ->push('Create/Edit Scenario', route('platform.scenario.edit'));
+    });
+
+Route::screen('scenarios', ScenarioListScreen::class)
+    ->name('platform.scenario.list')
+    ->breadcrumbs(function (Trail $trail) {
+        return $trail
+            ->parent('platform.index')
+            ->push('Scenario', route('platform.scenario.list'));
+    });
+
+Route::screen('task_group/{scenario?}/{task_group?}', TaskGroupEditScreen::class)
+    ->name('platform.task_group.edit');
+
+Route::screen('info_text/{task_group?}/{info_text?}', InfoTextEditScreen::class)
+    ->name('platform.info_text.edit');
+
+Route::screen('task/{task_group?}/{task?}', TaskEditScreen::class)
+    ->name('platform.task.edit');

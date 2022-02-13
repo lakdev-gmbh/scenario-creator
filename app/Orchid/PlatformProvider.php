@@ -29,18 +29,10 @@ class PlatformProvider extends OrchidServiceProvider
     {
         return [
 
-            Menu::make('Documentation')
-                ->title('Docs')
+            Menu::make('Scenarios')
+                ->title('Content')
                 ->icon('docs')
-                ->url('https://orchid.software/en/docs'),
-
-            Menu::make('Changelog')
-                ->icon('shuffle')
-                ->url('https://github.com/orchidsoftware/platform/blob/master/CHANGELOG.md')
-                ->target('_blank')
-                ->badge(function () {
-                    return Dashboard::version();
-                }, Color::DARK()),
+                ->route('platform.scenario.list'),
 
             Menu::make(__('Users'))
                 ->icon('user')
