@@ -126,6 +126,10 @@ class InfoTextEditScreen extends Screen
     public function layout(): array
     {
         $layout = [
+            Input::make('info_text.title')
+                ->title('Title')
+                ->help(__('Specify a title for this info text')),
+
             Quill::make('info_text.body')
                 ->title('Body')
                 ->help(__('The info text')),

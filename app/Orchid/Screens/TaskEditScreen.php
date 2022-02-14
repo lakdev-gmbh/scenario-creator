@@ -124,6 +124,10 @@ class TaskEditScreen extends Screen
     public function layout(): array
     {
         $layout = [
+            Input::make('task.title')
+                ->title('Title')
+                ->help(__('Specify an administrative title for this task')),
+
             Input::make('task.question')
                 ->title('Question')
                 ->help(__('Specify a question for this task')),

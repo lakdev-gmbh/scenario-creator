@@ -16,6 +16,7 @@ class CreateTasksTable extends Migration
         Schema::create('tasks', function (Blueprint $table) {
             $table->uuid('watermelon_id');
             $table->foreignUuid('task_group_watermelon_id');
+            $table->text('title');
             $table->integer('weight');
             $table->text('question');
             $table->text('correct_answer');

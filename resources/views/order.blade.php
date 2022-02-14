@@ -8,7 +8,7 @@
     <table {{ $attributes }}>
         <tbody class="{{ $listClass }}">
         @foreach($editables as $editable)
-            <tr data-id="{{ $editable->getKey() }}">
+            <tr data-id="{{ $editable->getKey() }}" data-class="{{ get_class($editable) }}">
                 <td>{{ $editable->title }}</td>
                 <td>
                     <a href="{{ $editable->getEditPath() }}">
@@ -29,6 +29,7 @@
                 itemSerializer: function (item, container) {
                     if (item.node.hasAttribute('data-id')) {
                         item.id = item.node.getAttribute('data-id')
+                        item.class = item.node.getAttribute('data-class')
                     }
                     return item
                 }
@@ -37,7 +38,7 @@
 
         function updateOrder() {
             let data = {}
-            data[{{ $name }}] = sortable('.{{ $listClass }}', 'serialize')[0].items
+            data["{{ $name }}"] = sortable('.{{ $listClass }}', 'serialize')[0].items
             $.ajax({
                 url: location.pathname + "/{{ $method }}",
                 contentType: "application/json",

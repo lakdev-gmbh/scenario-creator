@@ -17,6 +17,7 @@ class CreateInfoTextsTable extends Migration
             $table->uuid('watermelon_id');
             $table->foreignUuid('task_group_watermelon_id');
             $table->integer('weight');
+            $table->text('title');
             $table->longText('body');
             $table->timestamps();
             $table->softDeletes();

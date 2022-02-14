@@ -2,12 +2,15 @@
 
 namespace App\Orchid\Screens;
 
+use App\Models\InfoText;
 use App\Models\Scenario;
+use App\Models\Task;
 use App\Models\TaskGroup;
 use App\Models\TaskGroupElement;
 use App\Orchid\Fields\Order;
 use Illuminate\Http\Request;
 use Orchid\Screen\Actions\Button;
+use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Screen;
 use Orchid\Support\Facades\Alert;
@@ -60,6 +63,7 @@ class TaskGroupEditScreen extends Screen
         TaskGroup $taskGroup,
         Request $request
     ) {
+        $this->exists = $taskGroup->exists;
         $taskGroup->fill($request->get('task_group'));
         $taskGroup->scenario_watermelon_id = $scenario->getKey();
         if (!$this->exists) {
@@ -70,19 +74,35 @@ class TaskGroupEditScreen extends Screen
 
         Alert::info('You have successfully created a task group.');
 
-        return redirect()->route('platform.scenario.edit', [
-            'scenario' => $scenario->getKey(),
-        ]);
+        if ($this->exists) {
+            return redirect()->route('platform.scenario.edit', [
+                'scenario' => $scenario->getKey(),
+            ]);
+        } else {
+            return redirect()->route('platform.task_group.edit', [
+                'scenario' => $scenario->getKey(),
+                'task_group' => $taskGroup->getKey(),
+            ]);
+        }
     }
 
-    public function updateTaskGroupElementOrder(Scenario $scenario, TaskGroup $taskGroup, Request $request)
-    {
+    public function updateTaskGroupElementOrder(
+        Scenario $scenario,
+        TaskGroup $taskGroup,
+        Request $request
+    ) {
         $taskGroupElements = $request->json('taskGroupElements');
         foreach ($taskGroupElements as $taskGroupElement) {
-            TaskGroupElement::where('watermelon_id', $taskGroupElement['id'])->update(['weight' => $taskGroupElement['index']]);
+            if ($taskGroupElement['class'] === InfoText::class) {
+                InfoText::where('watermelon_id', $taskGroupElement['id'])
+                    ->update(['weight' => $taskGroupElement['index']]);
+            } elseif ($taskGroupElement['class'] === Task::class) {
+                Task::where('watermelon_id', $taskGroupElement['id'])
+                    ->update(['weight' => $taskGroupElement['index']]);
+            }
         }
         return json_encode([
-            'message' => __('Order saved!')
+            'message' => __('Order saved!'),
         ]);
     }
 
@@ -112,17 +132,17 @@ class TaskGroupEditScreen extends Screen
     public function commandBar(): array
     {
         return [
-            Button::make('Create task group')
+            Button::make(__('Create task group'))
                 ->icon('check')
                 ->method('createOrUpdate')
                 ->canSee(!$this->exists),
 
-            Button::make('Update')
+            Button::make(__('Update and return to scenario'))
                 ->icon('note')
                 ->method('createOrUpdate')
                 ->canSee($this->exists),
 
-            Button::make('Remove')
+            Button::make(__('Remove'))
                 ->icon('trash')
                 ->confirm(__('Are you sure you want to delete this task group?'))
                 ->method('remove')
@@ -141,7 +161,7 @@ class TaskGroupEditScreen extends Screen
             Input::make('task_group.title')
                 ->title('Title')
                 ->placeholder('Attractive but mysterious title')
-                ->help('Specify a short descriptive title for this scenario.'),
+                ->help('Specify a short descriptive title for this task group.'),
 
 
         ];
@@ -150,9 +170,19 @@ class TaskGroupEditScreen extends Screen
                 Order::make('taskGroupElements')
                     ->title('Task Group Elements')
                     ->method('updateTaskGroupElementOrder')
-                    ->editables($this->taskGroup->taskGroupElements()->sortBy('weight'));
+                    ->editables($this->taskGroup->taskGroupElements()
+                        ->sortBy('weight'));
+            $layout[] =
+                Link::make('Add Info Text')
+                    ->route('platform.info_text.edit', [
+                        'task_group' => $this->taskGroup->id(),
+                    ]);
+            $layout[] =
+                Link::make('Add Task')
+                    ->route('platform.task.edit', [
+                        'task_group' => $this->taskGroup->id(),
+                    ]);
         }
-        // TODO: add add button for tasks and info texts. here and for task groups in the scenario edit screen
         return [
             Layout::rows($layout),
         ];

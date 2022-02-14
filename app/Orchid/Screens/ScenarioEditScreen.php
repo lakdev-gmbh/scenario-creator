@@ -9,6 +9,7 @@ use App\Orchid\Fields\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Orchid\Screen\Actions\Button;
+use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\Picture;
 use Orchid\Screen\Fields\Select;
@@ -156,7 +157,14 @@ class ScenarioEditScreen extends Screen
                     ->title('Task Groups')
                     ->method('updateTaskGroupOrder')
                     ->editables($this->scenario->taskGroups->sortBy('weight'));
+            $layout[] =
+                Link::make('Add Task Group')
+                    ->route('platform.task_group.edit', [
+                        'scenario' => $this->scenario->id(),
+                    ]);
         }
+
+
         return [
             Layout::rows($layout),
         ];

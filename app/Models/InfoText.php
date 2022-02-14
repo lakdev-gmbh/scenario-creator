@@ -7,11 +7,13 @@ class InfoText extends TaskGroupElement
     protected $primaryKey = 'watermelon_id';
 
     protected $fillable = [
+        'title',
         'body',
         'weight',
     ];
 
     protected $watermelonAttributes = [
+        'title',
         'body',
         'weight',
     ];
@@ -19,7 +21,7 @@ class InfoText extends TaskGroupElement
     public function getEditPath()
     {
         return route('platform.info_text.edit', [
-            'taskGroup' => $this->taskGroup->getKey(),
+            'task_group' => $this->taskGroup->getKey(),
             'info_text' => $this->getKey(),
         ]);
     }
