@@ -2,10 +2,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html5sortable/0.13.3/html5sortable.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
-    <div id="{{ 'save-order' }}">
+    <div class="alert alert-success rounded shadow-sm mb-3 p-3" style="display:none;" id="{{ 'save-order' }}">
 
     </div>
-    <table {{ $attributes }}>
+    <table class="matrix table" {{ $attributes }}>
         <tbody class="{{ $listClass }}">
         @foreach($editables as $editable)
             <tr data-id="{{ $editable->getKey() }}" data-class="{{ get_class($editable) }}">
@@ -19,9 +19,11 @@
         @endforeach
         </tbody>
     </table>
-    <div>
-        <button onclick="updateOrder()">{{__('Save order')}}</button>
-    </div>
+    @if(!$editables->count() === 0)
+        <div>
+            <button onclick="updateOrder()">{{__('Save order')}}</button>
+        </div>
+    @endif
     <script>
         $(document).ready(function () {
             sortable('.{{ $listClass }}', {
@@ -49,7 +51,11 @@
                 },
                 success: function (data) {
                     let jsonData = JSON.parse(data);
-                    $('#{{'save-order'}}').text(jsonData.message)
+                    $('#{{'save-order'}}')
+                        .text(jsonData.message)
+                        .fadeIn()
+                        .fadeTo(5000,1)
+                        .fadeOut();
                 },
             });
         }

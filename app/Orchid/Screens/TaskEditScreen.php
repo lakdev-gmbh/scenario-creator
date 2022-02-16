@@ -7,14 +7,19 @@ use App\Models\Task;
 use App\Models\TaskGroup;
 use Illuminate\Http\Request;
 use Orchid\Screen\Actions\Button;
+use Orchid\Screen\Fields\CheckBox;
 use Orchid\Screen\Fields\Input;
+use Orchid\Screen\Fields\Matrix;
+use Orchid\Screen\Fields\Picture;
 use Orchid\Screen\Fields\Select;
+use Orchid\Screen\Fields\TextArea;
 use Orchid\Screen\Screen;
 use Orchid\Support\Facades\Alert;
 use Orchid\Support\Facades\Layout;
 
 class TaskEditScreen extends Screen
 {
+
     /**
      * Display header name.
      *
@@ -35,25 +40,37 @@ class TaskEditScreen extends Screen
     public $exists = false;
 
     /**
+     * @var \App\Models\Task
+     */
+    private $task;
+
+    /**
      * Query data.
      *
      * @return array
      */
-    public function query(TaskGroup $taskGroup, Task $task): array
+    public function query(TaskGroup $taskGroup, $type, Task $task): array
     {
+        $task->type = $type;
         $this->exists = $task->exists;
-
+        $this->task = $task;
         if ($this->exists) {
             $this->name = 'Edit task';
+            $this->task = $task;
         }
         return [
-            'task' => $task
+            'task' => $task,
         ];
     }
 
-    public function createOrUpdate(TaskGroup $taskGroup, Task $task, Request $request)
-    {
+    public function createOrUpdate(
+        TaskGroup $taskGroup,
+        $type,
+        Task $task,
+        Request $request
+    ) {
         $task->fill($request->get('task'));
+        $task->type = $type;
         $task->task_group_watermelon_id = $taskGroup->getKey();
         if (!$this->exists) {
             $task->weight = $task->taskGroup->tasks()->count() - 1;
@@ -76,7 +93,7 @@ class TaskEditScreen extends Screen
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function remove(TaskGroup $taskGroup, Task $task)
+    public function remove(TaskGroup $taskGroup, $type, Task $task)
     {
         $task->delete();
 
@@ -87,7 +104,6 @@ class TaskEditScreen extends Screen
             'task_group' => $taskGroup->getKey(),
         ]);
     }
-
 
 
     /**
@@ -131,21 +147,47 @@ class TaskEditScreen extends Screen
             Input::make('task.question')
                 ->title('Question')
                 ->help(__('Specify a question for this task')),
-
-            // TODO: with multiple choice: select index maybe?
-            Input::make('task.correct_answer')
-                ->title(__('Correct answer'))
-                ->help(__('Specify the correct answer to the question')),
-
-            Select::make('task.type')
-                ->options([
-                    'multiple_choice' => __('Multiple choice'),
-                    'text' => __('Text answer'),
-                    'numeric' => __('Numeric answer'),
-                ])
         ];
-        return [
-            Layout::rows($layout)
-        ];
+        switch ($this->task->type) {
+            case Task::MULTIPLE_CHOICE:
+                $layout[] =
+                    Matrix::make('task.possible_answers')
+                        ->columns([
+                            'Answer' => 'answer',
+                            'Correct?' => 'is_correct',
+                        ])
+                        ->fields([
+                            'answer'   => TextArea::make('answer'),
+                            'is_correct' => CheckBox::make('is_correct')->sendTrueOrFalse(),
+                        ])
+                        ->title(__('Possible answers'))
+                        ->help(__('Specify the possible answers to the question'));
+                break;
+            case Task::MULTIPLE_CHOICE_IMAGE:
+                $layout[] =
+                    Matrix::make('task.possible_answers')
+                        ->columns([
+                            'Answer' => 'answer',
+                            'Correct?' => 'is_correct',
+                        ])
+                        ->fields([
+                            'answer'   => Picture::make('answer'),
+                            'is_correct' => CheckBox::make('is_correct')->sendTrueOrFalse(),
+                        ])
+                        ->title(__('Possible answers'))
+                        ->help(__('Specify the possible answers to the question'));
+                break;
+            case Task::NUMERIC:
+            case Task::TEXT:
+                $layout[] = Input::make('task.correct_answer')
+                    ->title(__('Correct answer'))
+                    ->help(__('Specify the correct answer to the question'));
+                break;
+        }
+
+
+        return [Layout::rows($layout),];
+
     }
+
 }

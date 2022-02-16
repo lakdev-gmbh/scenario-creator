@@ -178,10 +178,30 @@ class TaskGroupEditScreen extends Screen
                         'task_group' => $this->taskGroup->id(),
                     ]);
             $layout[] =
-                Link::make('Add Task')
+                Link::make('Add multiple choice Task')
                     ->route('platform.task.edit', [
+                        'type' => Task::MULTIPLE_CHOICE,
                         'task_group' => $this->taskGroup->id(),
                     ]);
+            $layout[] =
+                Link::make('Add text Task')
+                    ->route('platform.task.edit', [
+                        'type' => Task::TEXT,
+                        'task_group' => $this->taskGroup->id(),
+                    ]);
+            $layout[] =
+                Link::make('Add multiple choice image Task')
+                    ->route('platform.task.edit', [
+                        'type' => Task::MULTIPLE_CHOICE_IMAGE,
+                        'task_group' => $this->taskGroup->id(),
+                    ]);
+            $layout[] =
+                Link::make('Add numeric Task')
+                    ->route('platform.task.edit', [
+                        'type' => Task::NUMERIC,
+                        'task_group' => $this->taskGroup->id(),
+                    ]);
+
         }
         return [
             Layout::rows($layout),

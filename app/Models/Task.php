@@ -5,6 +5,12 @@ namespace App\Models;
 class Task extends TaskGroupElement
 {
 
+    const MULTIPLE_CHOICE = 'multiple_choice';
+    const TEXT = 'text';
+    const NUMERIC = 'numeric';
+    const MULTIPLE_CHOICE_IMAGE = 'multiple_choice_image';
+
+
     protected $fillable = [
         'title',
         'question',
@@ -23,10 +29,15 @@ class Task extends TaskGroupElement
         'weight',
     ];
 
+    protected $casts = [
+        'possible_answers' => 'array'
+    ];
+
     public function getEditPath()
     {
         return route('platform.task.edit', [
-            'taskGroup' => $this->taskGroup->getKey(),
+            'task_group' => $this->taskGroup->getKey(),
+            'type' => $this->type,
             'task' => $this->getKey(),
         ]);
     }

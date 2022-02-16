@@ -19,7 +19,7 @@ class CreateTasksTable extends Migration
             $table->text('title');
             $table->integer('weight');
             $table->text('question');
-            $table->text('correct_answer');
+            $table->text('correct_answer')->nullable();
             $table->json('possible_answers')->nullable();
             $table->string('type');
             $table->timestamps();
