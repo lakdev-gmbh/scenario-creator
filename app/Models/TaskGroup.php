@@ -29,6 +29,7 @@ class TaskGroup extends Model implements Editable
     ];
 
     protected $watermelonAttributes = [
+        'scenario_watermelon_id',
         'title',
         'weight',
     ];

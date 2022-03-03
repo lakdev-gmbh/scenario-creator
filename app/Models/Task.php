@@ -21,6 +21,7 @@ class Task extends TaskGroupElement
     ];
 
     protected $watermelonAttributes = [
+        'task_group_watermelon_id',
         'title',
         'question',
         'correct_answer',

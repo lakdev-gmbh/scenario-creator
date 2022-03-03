@@ -3,14 +3,11 @@
 namespace App\Orchid\Screens;
 
 use App\Models\InfoText;
-use App\Models\Scenario;
-use App\Models\Task;
 use App\Models\TaskGroup;
 use Illuminate\Http\Request;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\Quill;
-use Orchid\Screen\Fields\Select;
 use Orchid\Screen\Screen;
 use Orchid\Support\Facades\Alert;
 use Orchid\Support\Facades\Layout;
@@ -46,7 +43,7 @@ class InfoTextEditScreen extends Screen
         $this->exists = $infoText->exists;
 
         if ($this->exists) {
-            $this->name = 'Edit task';
+            $this->name = 'Edit Info Text';
         }
         return [
             'info_text' => $infoText
@@ -58,11 +55,11 @@ class InfoTextEditScreen extends Screen
         $infoText->fill($request->get('info_text'));
         $infoText->task_group_watermelon_id = $taskGroup->getKey();
         if (!$this->exists) {
-            $infoText->weight = $infoText->taskGroup->tasks()->count() - 1;
+            $infoText->weight = $infoText->taskGroup->taskGroupElements()->count() - 1;
         }
         $infoText->save();
 
-        Alert::info('You have successfully created a task.');
+        Alert::info('You have successfully created an info text.');
 
         return redirect()->route('platform.task_group.edit', [
             'scenario' => $taskGroup->scenario->getKey(),
@@ -82,7 +79,7 @@ class InfoTextEditScreen extends Screen
     {
         $infoText->delete();
 
-        Alert::info('You have successfully deleted the task.');
+        Alert::info('You have successfully deleted the info text.');
 
         return redirect()->route('platform.task_group.edit', [
             'scenario' => $taskGroup->scenario->getKey(),
@@ -100,7 +97,7 @@ class InfoTextEditScreen extends Screen
     public function commandBar(): array
     {
         return [
-            Button::make('Create task')
+            Button::make('Create info text')
                 ->icon('check')
                 ->method('createOrUpdate')
                 ->canSee(!$this->exists),
@@ -112,7 +109,7 @@ class InfoTextEditScreen extends Screen
 
             Button::make('Remove')
                 ->icon('trash')
-                ->confirm(__('Are you sure you want to delete this task?'))
+                ->confirm(__('Are you sure you want to delete this info text?'))
                 ->method('remove')
                 ->canSee($this->exists),
         ];

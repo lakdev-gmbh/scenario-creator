@@ -13,6 +13,7 @@ class InfoText extends TaskGroupElement
     ];
 
     protected $watermelonAttributes = [
+        'task_group_watermelon_id',
         'title',
         'body',
         'weight',

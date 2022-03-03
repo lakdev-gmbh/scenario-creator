@@ -19,7 +19,7 @@
         @endforeach
         </tbody>
     </table>
-    @if(!$editables->count() === 0)
+    @if($editables->count() !== 0)
         <div>
             <button onclick="updateOrder()">{{__('Save order')}}</button>
         </div>
