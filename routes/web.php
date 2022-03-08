@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Scenario;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,8 +15,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('platform.main');
 });
 Route::get('scenarios', function () {
-    return \App\Models\Scenario::with('taskGroups.tasks', 'taskGroups.infoTexts')->get();
+    return Scenario::with('taskGroups.tasks', 'taskGroups.infoTexts')->get();
 });

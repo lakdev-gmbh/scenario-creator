@@ -125,3 +125,6 @@ Route::screen('info_text/{task_group}/{info_text?}', InfoTextEditScreen::class)
 
 Route::screen('task/{task_group}/{type}/{task?}', TaskEditScreen::class)
     ->name('platform.task.edit');
+
+Route::screen('handbook', \App\Orchid\Screens\HandbookScreen::class)
+    ->name('platform.handbook');

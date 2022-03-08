@@ -1,28 +1,18 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Orchid\Screens;
 
-use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Screen;
 use Orchid\Support\Facades\Layout;
 
-class PlatformScreen extends Screen
+class HandbookScreen extends Screen
 {
     /**
      * Display header name.
      *
      * @var string
      */
-    public $name = 'Scenario Creator';
-
-    /**
-     * Display header description.
-     *
-     * @var string
-     */
-    public $description = 'Welcome to our Scenario Creator!';
+    public $name = 'Handbook';
 
     /**
      * Query data.
@@ -41,22 +31,18 @@ class PlatformScreen extends Screen
      */
     public function commandBar(): array
     {
-        return [
-            Link::make('L&K development GmbH')
-                ->href('http://lakdev.de')
-                ->icon('globe-alt'),
-        ];
+        return [];
     }
 
     /**
      * Views.
      *
-     * @return \Orchid\Screen\Layout[]
+     * @return \Orchid\Screen\Layout[]|string[]
      */
     public function layout(): array
     {
         return [
-            Layout::view('admin.welcome'),
+            Layout::view('admin.handbook'),
         ];
     }
 }

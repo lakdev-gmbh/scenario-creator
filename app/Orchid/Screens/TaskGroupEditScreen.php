@@ -72,7 +72,7 @@ class TaskGroupEditScreen extends Screen
         }
         $taskGroup->save();
 
-        Alert::info('You have successfully created a task group.');
+        Alert::info('Task Group saved.');
 
         if ($this->exists) {
             return redirect()->route('platform.scenario.edit', [

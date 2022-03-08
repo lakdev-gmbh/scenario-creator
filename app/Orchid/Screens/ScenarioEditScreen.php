@@ -71,9 +71,11 @@ class ScenarioEditScreen extends Screen
         $scenario->user_id = Auth::id();
         $scenario->save();
 
-        Alert::info('You have successfully created a scenario.');
+        Alert::info('Scenario saved.');
 
-        return redirect()->route('platform.scenario.list');
+        return redirect()->route('platform.scenario.edit', [
+            'scenario' => $scenario->getKey(),
+        ]);
     }
 
     public function updateTaskGroupOrder(Scenario $scenario, Request $request)

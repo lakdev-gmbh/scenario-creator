@@ -77,7 +77,7 @@ class TaskEditScreen extends Screen
         }
         $task->save();
 
-        Alert::info('You have successfully created a task.');
+        Alert::info('Task saved.');
 
         return redirect()->route('platform.task_group.edit', [
             'scenario' => $taskGroup->scenario->getKey(),

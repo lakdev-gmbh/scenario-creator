@@ -1,4 +1,5 @@
 @component($typeForm, get_defined_vars())
+{{--    todo: Add jQuery globally--}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html5sortable/0.13.3/html5sortable.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
@@ -24,7 +25,7 @@
             <button onclick="updateOrder()">{{__('Save order')}}</button>
         </div>
     @endif
-    <script>
+    <script defer>
         $(document).ready(function () {
             sortable('.{{ $listClass }}', {
                 forcePlaceholderSize: true,
