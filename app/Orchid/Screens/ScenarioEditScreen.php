@@ -142,6 +142,7 @@ class ScenarioEditScreen extends Screen
             Input::make('scenario.title')
                 ->title('Title')
                 ->placeholder('Attractive but mysterious title')
+                ->required()
                 ->help('Specify a short descriptive title for this scenario.'),
 
             Picture::make('scenario.image')
@@ -150,6 +151,7 @@ class ScenarioEditScreen extends Screen
 
             TextArea::make('scenario.description')
                 ->title('Description')
+                ->required()
                 ->rows(3)
                 ->placeholder('Brief description'),
         ];

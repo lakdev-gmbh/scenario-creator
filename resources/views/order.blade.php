@@ -10,7 +10,7 @@
         <tbody class="{{ $listClass }}">
         @foreach($editables as $editable)
             <tr data-id="{{ $editable->getKey() }}" data-class="{{ get_class($editable) }}">
-                <td>{{ $editable->title }}</td>
+                <td><x-orchid-icon path="menu"/> {{ $editable->title }}</td>
                 <td>
                     <a href="{{ $editable->getEditPath() }}">
                         <button>Edit</button>

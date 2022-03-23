@@ -160,10 +160,9 @@ class TaskGroupEditScreen extends Screen
         $layout = [
             Input::make('task_group.title')
                 ->title('Title')
+                ->required()
                 ->placeholder('Attractive but mysterious title')
                 ->help('Specify a short descriptive title for this task group.'),
-
-
         ];
         if ($this->exists) {
             $layout[] =

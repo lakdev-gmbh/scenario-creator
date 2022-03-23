@@ -142,10 +142,12 @@ class TaskEditScreen extends Screen
         $layout = [
             Input::make('task.title')
                 ->title('Title')
+                ->required()
                 ->help(__('Specify an administrative title for this task')),
 
             Input::make('task.question')
                 ->title('Question')
+                ->required()
                 ->help(__('Specify a question for this task')),
         ];
         switch ($this->task->type) {
@@ -161,6 +163,7 @@ class TaskEditScreen extends Screen
                             'is_correct' => CheckBox::make('is_correct')->sendTrueOrFalse(),
                         ])
                         ->title(__('Possible answers'))
+                        ->required()
                         ->help(__('Specify the possible answers to the question'));
                 break;
             case Task::MULTIPLE_CHOICE_IMAGE:
@@ -175,12 +178,14 @@ class TaskEditScreen extends Screen
                             'is_correct' => CheckBox::make('is_correct')->sendTrueOrFalse(),
                         ])
                         ->title(__('Possible answers'))
+                        ->required()
                         ->help(__('Specify the possible answers to the question'));
                 break;
             case Task::NUMERIC:
             case Task::TEXT:
                 $layout[] = Input::make('task.correct_answer')
                     ->title(__('Correct answer'))
+                    ->required()
                     ->help(__('Specify the correct answer to the question'));
                 break;
         }

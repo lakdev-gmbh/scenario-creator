@@ -4,6 +4,7 @@ namespace App\Orchid\Layouts;
 
 use App\Models\Scenario;
 use Orchid\Screen\Actions\Link;
+use Orchid\Screen\Fields\Group;
 use Orchid\Screen\Layouts\Table;
 use Orchid\Screen\TD;
 
@@ -33,8 +34,19 @@ class ScenarioListLayout extends Table
                     return Link::make($scenario->title)
                         ->route('platform.scenario.edit', $scenario);
                 }),
-            TD::make('description', 'Description'),
+            TD::make('description', 'Description')->width('900px'),
             TD::make('updated_at', 'Last edit'),
+            TD::make('edit', 'Edit')
+                ->render(function (Scenario $scenario) {
+                    return Group::make([
+                        Link::make("Edit")
+                            ->icon('pencil')
+                            ->route('platform.scenario.edit', $scenario),
+                        Link::make("Preview")
+                            ->icon('eye')
+                            ->route('platform.scenario.edit', $scenario),
+                    ]);
+                }),
         ];
     }
 
