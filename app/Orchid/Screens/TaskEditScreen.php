@@ -182,6 +182,12 @@ class TaskEditScreen extends Screen
                         ->help(__('Specify the possible answers to the question'));
                 break;
             case Task::NUMERIC:
+                $layout[] = Input::make('task.correct_answer')
+                    ->title(__('Correct answer'))
+                    ->type('number')
+                    ->required()
+                    ->help(__('Specify the correct answer to the question'));
+                break;
             case Task::TEXT:
                 $layout[] = Input::make('task.correct_answer')
                     ->title(__('Correct answer'))

@@ -42,6 +42,7 @@ class ScenarioListLayout extends Table
                         Link::make("Edit")
                             ->icon('pencil')
                             ->route('platform.scenario.edit', $scenario),
+                        // TODO: Link to Preview when available
                         Link::make("Preview")
                             ->icon('eye')
                             ->route('platform.scenario.edit', $scenario),
