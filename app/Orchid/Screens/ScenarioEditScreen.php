@@ -5,6 +5,7 @@ namespace App\Orchid\Screens;
 use App\Models\App;
 use App\Models\Scenario;
 use App\Models\TaskGroup;
+use App\Models\UserGroup;
 use App\Orchid\Fields\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -12,6 +13,7 @@ use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\Picture;
+use Orchid\Screen\Fields\Relation;
 use Orchid\Screen\Fields\Select;
 use Orchid\Screen\Fields\TextArea;
 use Orchid\Screen\Screen;
@@ -68,8 +70,10 @@ class ScenarioEditScreen extends Screen
     public function createOrUpdate(Scenario $scenario, Request $request)
     {
         $scenario->fill($request->get('scenario'));
-        $scenario->user_id = Auth::id();
+        $scenario->user_watermelon_id = Auth::id();
         $scenario->save();
+
+        $scenario->replaceUserGroups($request->input('scenario.user_groups'));
 
         Alert::info('Scenario saved.');
 
@@ -156,6 +160,12 @@ class ScenarioEditScreen extends Screen
                 ->placeholder('Brief description'),
         ];
         if ($this->exists) {
+            $layout[] =
+                Relation::make('scenario.user_groups.')
+                    ->fromModel(UserGroup::class, 'title', 'watermelon_id')
+                    ->multiple()
+                    ->value($this->scenario->userGroups)
+                    ->title('Choose user groups to share this scenario with');
             $layout[] =
                 Order::make('taskGroups')
                     ->title('Task Groups')

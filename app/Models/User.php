@@ -2,10 +2,20 @@
 
 namespace App\Models;
 
+use App\Traits\Uuids;
+use App\Traits\WatermelonId;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use NathanHeffley\LaravelWatermelon\Traits\Watermelon;
+use Orchid\Attachment\Attachable;
 use Orchid\Platform\Models\User as Authenticatable;
+use Orchid\Screen\AsSource;
 
 class User extends Authenticatable
 {
+    use SoftDeletes, Watermelon;
+    use WatermelonId;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -16,6 +26,11 @@ class User extends Authenticatable
         'email',
         'password',
         'permissions',
+    ];
+
+    protected $watermelonAttributes = [
+        'name',
+        'email',
     ];
 
     /**
@@ -63,4 +78,16 @@ class User extends Authenticatable
         'updated_at',
         'created_at',
     ];
+
+    public function userGroups() {
+        return $this->belongsToMany(UserGroup::class, 'users_user_groups', 'user_watermelon_id','user_group_watermelon_id');
+    }
+
+    public function scenarios() {
+        return $this->hasMany(Scenario::class);
+    }
+
+    public function ownUserGroups() {
+        return $this->hasMany(UserGroup::class);
+    }
 }

@@ -20,9 +20,7 @@
     </style>
     <div id="wrapper">
         <div class="container">
-
             <div class="row">
-
                 <div class="col-md-3">
                     <nav class="docs-sidebar sticky-top" id="navbar-handbook" data-offset-top="300"
                          data-offset-bottom="200" role="navigation">
@@ -44,8 +42,6 @@
                     </nav>
                 </div>
                 <div data-spy="scroll" data-target="#navbar-handbook" data-offset="0" class="col-md-9">
-
-
                     <section id="line1" class="section">
                         <h2 class="dark-text">
                             Getting Started

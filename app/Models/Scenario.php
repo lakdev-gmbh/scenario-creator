@@ -56,4 +56,15 @@ class Scenario extends Model implements Editable
         $date = Carbon::parse($value);
         return $date->format('Y-m-d H:i');
     }
+
+    public function userGroups() {
+        return $this->belongsToMany(UserGroup::class, 'scenarios_user_groups', 'scenario_watermelon_id','user_group_watermelon_id');
+    }
+
+    public function replaceUserGroups(?array $userGroups=[]) {
+        $this->userGroups()->detach();
+        $this->userGroups()->attach($userGroups);
+        return $this;
+    }
+
 }

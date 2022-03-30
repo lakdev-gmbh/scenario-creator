@@ -9,6 +9,7 @@ use App\Orchid\Screens\Examples\ExampleFieldsScreen;
 use App\Orchid\Screens\Examples\ExampleLayoutsScreen;
 use App\Orchid\Screens\Examples\ExampleScreen;
 use App\Orchid\Screens\Examples\ExampleTextEditorsScreen;
+use App\Orchid\Screens\HandbookScreen;
 use App\Orchid\Screens\InfoTextEditScreen;
 use App\Orchid\Screens\PlatformScreen;
 use App\Orchid\Screens\Role\RoleEditScreen;
@@ -20,6 +21,8 @@ use App\Orchid\Screens\TaskGroupEditScreen;
 use App\Orchid\Screens\User\UserEditScreen;
 use App\Orchid\Screens\User\UserListScreen;
 use App\Orchid\Screens\User\UserProfileScreen;
+use App\Orchid\Screens\UserGroupEditScreen;
+use App\Orchid\Screens\UserGroupListScreen;
 use Illuminate\Support\Facades\Route;
 use Tabuna\Breadcrumbs\Trail;
 
@@ -126,5 +129,21 @@ Route::screen('info_text/{task_group}/{info_text?}', InfoTextEditScreen::class)
 Route::screen('task/{task_group}/{type}/{task?}', TaskEditScreen::class)
     ->name('platform.task.edit');
 
-Route::screen('handbook', \App\Orchid\Screens\HandbookScreen::class)
+Route::screen('handbook', HandbookScreen::class)
     ->name('platform.handbook');
+
+Route::screen('user_group/{user_group?}', UserGroupEditScreen::class)
+    ->name('platform.user_group.edit')
+    ->breadcrumbs(function (Trail $trail) {
+        return $trail
+            ->parent('platform.user_group.list')
+            ->push('Create/Edit User Group', route('platform.user_group.edit'));
+    });
+
+Route::screen('user_groups', UserGroupListScreen::class)
+    ->name('platform.user_group.list')
+    ->breadcrumbs(function (Trail $trail) {
+        return $trail
+            ->parent('platform.index')
+            ->push('User Group', route('platform.user_group.list'));
+    });

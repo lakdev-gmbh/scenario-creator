@@ -19,6 +19,7 @@ use Orchid\Screen\Screen;
 use Orchid\Support\Color;
 use Orchid\Support\Facades\Layout;
 use Orchid\Support\Facades\Toast;
+use Ramsey\Uuid\Uuid;
 
 class UserEditScreen extends Screen
 {
@@ -179,12 +180,20 @@ class UserEditScreen extends Screen
             $userData['password'] = Hash::make($userData['password']);
         }
 
+        $isNewUser = $user->exists;
+
         $user
             ->fill($userData)
             ->fill([
                 'permissions' => $permissions,
             ])
             ->save();
+
+        if (!$isNewUser) {
+            // Add watermelon id
+            $user->watermelon_id = Uuid::uuid4()->toString();
+            $user->save();
+        }
 
         $user->replaceRoles($request->input('user.roles'));
 
