@@ -29,6 +29,11 @@ class InfoTextEditScreen extends Screen
     public $description = 'Info text';
 
     /**
+     * @var string
+     */
+    public $permission = 'platform.scenario.edit';
+
+    /**
      * @var bool
      */
     public $exists = false;

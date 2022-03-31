@@ -35,6 +35,11 @@ class TaskEditScreen extends Screen
     public $description = 'Task';
 
     /**
+     * @var string
+     */
+    public $permission = 'platform.scenario.edit';
+
+    /**
      * @var bool
      */
     public $exists = false;
