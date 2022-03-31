@@ -15,6 +15,7 @@ use App\Orchid\Screens\PlatformScreen;
 use App\Orchid\Screens\Role\RoleEditScreen;
 use App\Orchid\Screens\Role\RoleListScreen;
 use App\Orchid\Screens\ScenarioEditScreen;
+use App\Orchid\Screens\ScenarioListOwnScreen;
 use App\Orchid\Screens\ScenarioListScreen;
 use App\Orchid\Screens\TaskEditScreen;
 use App\Orchid\Screens\TaskGroupEditScreen;
@@ -118,6 +119,14 @@ Route::screen('scenarios', ScenarioListScreen::class)
         return $trail
             ->parent('platform.index')
             ->push('Scenario', route('platform.scenario.list'));
+    });
+
+Route::screen('my-scenarios', ScenarioListOwnScreen::class)
+    ->name('platform.scenario.list_own')
+    ->breadcrumbs(function (Trail $trail) {
+        return $trail
+            ->parent('platform.index')
+            ->push('My Scenarios', route('platform.scenario.list_own'));
     });
 
 Route::screen('task_group/{scenario}/{task_group?}', TaskGroupEditScreen::class)

@@ -70,7 +70,7 @@ class ScenarioEditScreen extends Screen
     public function createOrUpdate(Scenario $scenario, Request $request)
     {
         $scenario->fill($request->get('scenario'));
-        $scenario->user_watermelon_id = Auth::id();
+        $scenario->user_watermelon_id = Auth::user()->id();
         $scenario->save();
 
         $scenario->replaceUserGroups($request->input('scenario.user_groups'));

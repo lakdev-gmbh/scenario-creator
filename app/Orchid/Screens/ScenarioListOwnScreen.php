@@ -8,19 +8,19 @@ use Illuminate\Support\Facades\Auth;
 use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Screen;
 
-class ScenarioListScreen extends Screen
+class ScenarioListOwnScreen extends Screen
 {
     /**
      * Display header name.
      *
      * @var string
      */
-    public $name = 'Scenarios';
+    public $name = 'My Scenarios';
 
     /**
      * @var string
      */
-    public $permission = 'platform.scenario.access_all';
+    public $permission = 'platform.scenario.access_own';
 
     /**
      * Query data.
@@ -29,8 +29,10 @@ class ScenarioListScreen extends Screen
      */
     public function query(): array
     {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
         return [
-            'scenarios' => Scenario::paginate()
+            'scenarios' => Scenario::where('user_watermelon_id', $user->id())->paginate()
         ];
     }
 

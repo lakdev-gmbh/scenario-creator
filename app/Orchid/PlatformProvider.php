@@ -32,7 +32,13 @@ class PlatformProvider extends OrchidServiceProvider
             Menu::make('Scenarios')
                 ->title('Content')
                 ->icon('docs')
+                ->permission('platform.scenario.access_all')
                 ->route('platform.scenario.list'),
+
+            Menu::make('My Scenarios')
+                ->icon('docs')
+                ->route('platform.scenario.list_own')
+                ->permission('platform.scenario.access_own'),
 
             Menu::make('User Groups')
                 ->icon('user-follow')
@@ -72,6 +78,11 @@ class PlatformProvider extends OrchidServiceProvider
             ItemPermission::group(__('System'))
                 ->addPermission('platform.systems.roles', __('Roles'))
                 ->addPermission('platform.systems.users', __('Users')),
+
+            ItemPermission::group(__('Scenario'))
+                ->addPermission('platform.scenario.edit', __('Create/Edit scenarios'))
+                ->addPermission('platform.scenario.access_all', __('Access all scenarios'))
+                ->addPermission('platform.scenario.access_own', __('Access own scenarios'))
         ];
     }
 }

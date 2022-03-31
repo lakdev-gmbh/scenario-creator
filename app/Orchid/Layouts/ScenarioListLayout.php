@@ -3,6 +3,7 @@
 namespace App\Orchid\Layouts;
 
 use App\Models\Scenario;
+use Illuminate\Support\Facades\Auth;
 use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Fields\Group;
 use Orchid\Screen\Layouts\Table;
@@ -38,15 +39,21 @@ class ScenarioListLayout extends Table
             TD::make('updated_at', 'Last edit'),
             TD::make('edit', 'Edit')
                 ->render(function (Scenario $scenario) {
-                    return Group::make([
-                        Link::make("Edit")
-                            ->icon('pencil')
-                            ->route('platform.scenario.edit', $scenario),
-                        // TODO: Link to Preview when available
+                    $group = [];
+                    /** @var \App\Models\User $user */
+                    $user = Auth::user();
+                    if ($user->hasAccess('platform.scenario.edit')) {
+                        $group[] =
+                            Link::make("Edit")
+                                ->icon('pencil')
+                                ->route('platform.scenario.edit', $scenario);
+                    }
+                    // TODO: Link to Preview when available
+                    $group[] =
                         Link::make("Preview")
                             ->icon('eye')
-                            ->route('platform.scenario.edit', $scenario),
-                    ]);
+                            ->route('platform.scenario.edit', $scenario);
+                    return Group::make($group);
                 }),
         ];
     }
