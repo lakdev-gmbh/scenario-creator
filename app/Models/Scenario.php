@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Interfaces\Editable;
+use App\Traits\BeautifulTimestamps;
 use App\Traits\Uuids;
 use App\Traits\WatermelonId;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -21,6 +22,7 @@ class Scenario extends Model implements Editable
     use SoftDeletes, Watermelon;
     use Uuids;
     use WatermelonId;
+    use BeautifulTimestamps;
 
     protected $primaryKey = 'watermelon_id';
 
@@ -46,15 +48,6 @@ class Scenario extends Model implements Editable
         return route('platform.scenario.edit', [
             'scenario' => $this->getKey()
         ]);
-    }
-
-    public function getCreatedAtAttribute($value){
-        $date = Carbon::parse($value);
-        return $date->format('Y-m-d H:i');
-    }
-    public function getUpdatedAtAttribute($value){
-        $date = Carbon::parse($value);
-        return $date->format('Y-m-d H:i');
     }
 
     public function userGroups() {

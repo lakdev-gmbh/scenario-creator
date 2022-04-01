@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\BeautifulTimestamps;
 use App\Traits\Uuids;
 use App\Traits\WatermelonId;
 use Illuminate\Database\Eloquent\Model;
@@ -15,6 +16,7 @@ class UserGroup extends Model
     use AsSource;
     use Uuids;
     use WatermelonId;
+    use BeautifulTimestamps;
 
 
     protected $primaryKey = 'watermelon_id';
