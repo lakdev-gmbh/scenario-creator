@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\UFModel;
 use App\Traits\Uuids;
 use App\Traits\WatermelonId;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -15,6 +16,7 @@ class User extends Authenticatable
 {
     use SoftDeletes, Watermelon;
     use WatermelonId;
+    use \Staudenmeir\EloquentHasManyDeep\HasRelationships;
 
     /**
      * The attributes that are mass assignable.
@@ -89,5 +91,9 @@ class User extends Authenticatable
 
     public function ownUserGroups() {
         return $this->hasMany(UserGroup::class);
+    }
+
+    public function sharedScenarios() {
+        return $this->hasManyDeepFromRelations($this->userGroups(), (new UserGroup())->scenarios());
     }
 }
