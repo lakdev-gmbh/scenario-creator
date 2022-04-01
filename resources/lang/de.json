@@ -148,5 +148,16 @@
     "Edit task": "Aufgabe bearbeiten",
     "Update and return to scenario": "Aktualisieren und zum zurück Szenario",
     "Create new": "Hinzufügen",
-    "Actions": "Aktionen"
+    "Actions": "Aktionen",
+    "Profile": "Profil",
+    "Regular user": "Nutzer",
+
+    "Scenario Creator": "Szenarien-Erstellungs-Tool",
+    "Welcome to our Scenario Creator!": "Willkommen zum Szenarien-Erstellungs-Tool!",
+    "Explore the handbook": "Handbuch ",
+    "The handbook contains all information you need to create educational, exciting and unique scenarios.":
+            "Das Handbuch enthält alle Informationen, die Sie benötigen, um lehrreiche, spannende und einzigartige Szenarien zu erstellen.",
+    "Create a scenario": "Szenario erstellen",
+    "Use the scenario creator to create a unique experience for your students and millions of students around the world.":
+            "Nutzen Sie das Szenarien-Erstellungs-Tool, um Ihren Schülern und Millionen von Schülern auf der ganzen Welt ein einzigartiges Lernerlebnis zu bieten. "
 }

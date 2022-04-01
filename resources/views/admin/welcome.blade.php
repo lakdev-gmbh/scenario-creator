@@ -4,7 +4,7 @@
         <div class="col col-lg-6 mt-6 p-4 pe-md-0">
 
             <h2 class="mt-2 text-dark fw-light">
-                {{ __('Welcome to our scenario creator!') }}
+                {{ __('Welcome to our Scenario Creator!') }}
             </h2>
 
 {{--            <p>--}}
@@ -25,8 +25,7 @@
                 <span class="ms-3 text-dark"><a class="text-u-l" href="{{ route('platform.handbook') }}">{{ __('Explore the handbook') }}</a></span>
             </h3>
             <p class="ms-md-5 ps-md-1">
-                {{ __('The handbook contains all information you need to create educational, exciting and unique scenarios') }}The package uses the Laravel framework.
-
+                {{ __('The handbook contains all information you need to create educational, exciting and unique scenarios.') }}
             </p>
         </div>
 
