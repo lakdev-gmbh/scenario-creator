@@ -13,7 +13,7 @@
                 <td><x-orchid-icon path="menu"/> {{ $editable->title }}</td>
                 <td>
                     <a href="{{ $editable->getEditPath() }}">
-                        <button>Edit</button>
+                        <button>{{ __('Edit') }}</button>
                     </a>
                 </td>
             </tr>

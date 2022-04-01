@@ -165,7 +165,7 @@ class ScenarioEditScreen extends Screen
                     ->fromModel(UserGroup::class, 'title', 'watermelon_id')
                     ->multiple()
                     ->value($this->scenario->userGroups)
-                    ->title('Choose user groups to share this scenario with');
+                    ->title('User groups to share this scenario with');
             $layout[] =
                 Order::make('taskGroups')
                     ->title('Task Groups')

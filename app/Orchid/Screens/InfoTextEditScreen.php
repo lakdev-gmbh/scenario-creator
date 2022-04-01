@@ -131,12 +131,11 @@ class InfoTextEditScreen extends Screen
             Input::make('info_text.title')
                 ->title('Title')
                 ->required()
-                ->help(__('Specify a title for this info text')),
+                ->help(__('Specify a title for this info text.')),
 
             Quill::make('info_text.body')
-                ->title('Body')
-                ->required()
-                ->help(__('The info text')),
+                ->title('Info Text')
+                ->required(),
         ];
         return [
             Layout::rows($layout)

@@ -6,14 +6,15 @@
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
+        "ext-json": "*",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
+        "kkomelin/laravel-translatable-string-exporter": "^1.16",
         "laravel/framework": "^8.75",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
         "nathanheffley/laravel-watermelon": "^0.0.1",
-        "orchid/platform": "^10.29",
-      "ext-json": "*"
+        "orchid/platform": "^10.29"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

@@ -42,8 +42,8 @@ class ScenarioListScreen extends Screen
     public function commandBar(): array
     {
         return [
-            Link::make('Create new')
-                ->icon('pencil')
+            Link::make('Add')
+                ->icon('plus')
                 ->route('platform.scenario.edit')
         ];
     }

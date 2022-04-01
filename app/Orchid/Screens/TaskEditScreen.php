@@ -160,31 +160,29 @@ class TaskEditScreen extends Screen
                 $layout[] =
                     Matrix::make('task.possible_answers')
                         ->columns([
-                            'Answer' => 'answer',
-                            'Correct?' => 'is_correct',
+                            __('Answer') => 'answer',
+                            __('Correct?') => 'is_correct',
                         ])
                         ->fields([
                             'answer'   => TextArea::make('answer'),
                             'is_correct' => CheckBox::make('is_correct')->sendTrueOrFalse(),
                         ])
                         ->title(__('Possible answers'))
-                        ->required()
-                        ->help(__('Specify the possible answers to the question'));
+                        ->required();
                 break;
             case Task::MULTIPLE_CHOICE_IMAGE:
                 $layout[] =
                     Matrix::make('task.possible_answers')
                         ->columns([
-                            'Answer' => 'answer',
-                            'Correct?' => 'is_correct',
+                            __('Answer') => 'answer',
+                            __('Correct?') => 'is_correct',
                         ])
                         ->fields([
                             'answer'   => Picture::make('answer'),
                             'is_correct' => CheckBox::make('is_correct')->sendTrueOrFalse(),
                         ])
                         ->title(__('Possible answers'))
-                        ->required()
-                        ->help(__('Specify the possible answers to the question'));
+                        ->required();
                 break;
             case Task::NUMERIC:
                 $layout[] = Input::make('task.correct_answer')

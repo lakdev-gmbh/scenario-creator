@@ -135,7 +135,7 @@ class UserGroupEditScreen extends Screen
                 Relation::make('user_group.users.')
                     ->fromModel(User::class, 'name', 'watermelon_id')
                     ->multiple()
-                    ->title('Choose users to belong to your group');
+                    ->title('Choose users');
         }
         return [
             Layout::rows($layout),

@@ -27,12 +27,12 @@ class UserGroupListLayout extends Table
     protected function columns(): array
     {
         return [
-            TD::make('title', 'Title')
+            TD::make('title', __('Title'))
                 ->render(function (UserGroup $userGroup) {
                     return Link::make($userGroup->title)
                         ->route('platform.user_group.edit', $userGroup);
                 }),
-            TD::make('updated_at', 'Last edit'),
+            TD::make('updated_at', __('Last edit')),
         ];
     }
 }

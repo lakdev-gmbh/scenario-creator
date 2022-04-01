@@ -4,6 +4,7 @@ namespace App\Orchid\Layouts;
 
 use App\Models\Scenario;
 use Illuminate\Support\Facades\Auth;
+use Orchid\Screen\Actions\DropDown;
 use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Fields\Group;
 use Orchid\Screen\Layouts\Table;
@@ -30,14 +31,14 @@ class ScenarioListLayout extends Table
     protected function columns(): array
     {
         return [
-            TD::make('title', 'Title')
+            TD::make('title', __('Title'))
                 ->render(function (Scenario $scenario) {
                     return Link::make($scenario->title)
                         ->route('platform.scenario.edit', $scenario);
                 }),
-            TD::make('description', 'Description')->width('900px'),
-            TD::make('updated_at', 'Last edit'),
-            TD::make('edit', 'Edit')
+            TD::make('description', __('Description'))->width('900px'),
+            TD::make('updated_at', __('Last edit')),
+            TD::make('edit', __('Edit'))
                 ->render(function (Scenario $scenario) {
                     $group = [];
                     /** @var \App\Models\User $user */
@@ -53,7 +54,9 @@ class ScenarioListLayout extends Table
                         Link::make("Preview")
                             ->icon('eye')
                             ->route('platform.scenario.edit', $scenario);
-                    return Group::make($group);
+                    return DropDown::make()
+                        ->icon('options-vertical')
+                        ->list($group);
                 }),
         ];
     }

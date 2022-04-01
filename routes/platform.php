@@ -110,7 +110,7 @@ Route::screen('scenario/{scenario?}', ScenarioEditScreen::class)
     ->breadcrumbs(function (Trail $trail) {
         return $trail
             ->parent('platform.scenario.list')
-            ->push('Create/Edit Scenario', route('platform.scenario.edit'));
+            ->push(__('Create'), route('platform.scenario.edit'));
     });
 
 Route::screen('scenarios', ScenarioListScreen::class)
@@ -118,7 +118,7 @@ Route::screen('scenarios', ScenarioListScreen::class)
     ->breadcrumbs(function (Trail $trail) {
         return $trail
             ->parent('platform.index')
-            ->push('Scenario', route('platform.scenario.list'));
+            ->push(__('Scenario'), route('platform.scenario.list'));
     });
 
 Route::screen('my-scenarios', ScenarioListOwnScreen::class)
@@ -126,7 +126,7 @@ Route::screen('my-scenarios', ScenarioListOwnScreen::class)
     ->breadcrumbs(function (Trail $trail) {
         return $trail
             ->parent('platform.index')
-            ->push('My Scenarios', route('platform.scenario.list_own'));
+            ->push(__('My Scenarios'), route('platform.scenario.list_own'));
     });
 
 Route::screen('task_group/{scenario}/{task_group?}', TaskGroupEditScreen::class)
@@ -146,7 +146,7 @@ Route::screen('user_group/{user_group?}', UserGroupEditScreen::class)
     ->breadcrumbs(function (Trail $trail) {
         return $trail
             ->parent('platform.user_group.list')
-            ->push('Create/Edit User Group', route('platform.user_group.edit'));
+            ->push(__('Create'), route('platform.user_group.edit'));
     });
 
 Route::screen('user_groups', UserGroupListScreen::class)
@@ -154,5 +154,5 @@ Route::screen('user_groups', UserGroupListScreen::class)
     ->breadcrumbs(function (Trail $trail) {
         return $trail
             ->parent('platform.index')
-            ->push('User Group', route('platform.user_group.list'));
+            ->push(__('User Group'), route('platform.user_group.list'));
     });
