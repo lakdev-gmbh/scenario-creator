@@ -5,6 +5,7 @@ namespace App\Orchid\Screens;
 use App\Models\Scenario;
 use App\Models\Task;
 use App\Models\TaskGroup;
+use App\Rules\NumericAnswer;
 use Illuminate\Http\Request;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Fields\CheckBox;
@@ -74,6 +75,13 @@ class TaskEditScreen extends Screen
         Task $task,
         Request $request
     ) {
+        // Validate numeric answers
+        if ($type === Task::NUMERIC) {
+            $request->validate([
+                'task.correct_answer' => ['required', new NumericAnswer]
+            ]);
+        }
+
         $task->fill($request->get('task'));
         $task->type = $type;
         $task->task_group_watermelon_id = $taskGroup->getKey();
@@ -186,8 +194,7 @@ class TaskEditScreen extends Screen
                 break;
             case Task::NUMERIC:
                 $layout[] = Input::make('task.correct_answer')
-                    ->title(__('Correct answer'))
-                    ->type('number')
+                    ->title(__('Correct numeric answer'))
                     ->required()
                     ->help(__('Specify the correct answer to the question'));
                 break;
