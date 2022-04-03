@@ -17,7 +17,7 @@
     "Campaign term": "Kampagnen-Begriff",
     "Cancel": "Abbrechen",
     "Update Password": "Passwort ändern",
-    "Change a few things up and try submitting again.": "Ändern Sie ein paar Dinge und versuchen Sie erneut zu übertragen.",
+    "Change a few things up and try submitting again.": "Korrigiere die folgenden Fehler und speichere erneut!",
     "Checking": "Überprüfen",
     "Class": "Klasse",
     "Close": "Schließen",
@@ -55,7 +55,7 @@
     "No notifications": "Keine Benachrichtigungen",
     "Notifications": "Benachrichtigungen",
     "Object search": "Objektsuche",
-    "Oh snap!": "Oh, Mist!",
+    "Oh snap!": "Fehler im Formular:",
     "Original referrer: (e.g. google, newsletter)": "Ursprünglicher Referrer: (z.B. Google, Newsletter)",
     "Paid keywords: (e.g. running+shoes)": "Bezahlte Schlüsselwörter: (z.B. Laufen+Schuhe)",
     "Password": "Passwort",
@@ -162,5 +162,7 @@
             "Das Handbuch enthält alle Informationen, die Sie benötigen, um lehrreiche, spannende und einzigartige Szenarien zu erstellen.",
     "Create a scenario": "Szenario erstellen",
     "Use the scenario creator to create a unique experience for your students and millions of students around the world.":
-            "Nutzen Sie das Szenarien-Erstellungs-Tool, um Ihren Schülern und Millionen von Schülern auf der ganzen Welt ein einzigartiges Lernerlebnis zu bieten. "
+            "Nutzen Sie das Szenarien-Erstellungs-Tool, um Ihren Schülern und Millionen von Schülern auf der ganzen Welt ein einzigartiges Lernerlebnis zu bieten. ",
+
+    "Answer is not numeric.": "Die Antwort ist nicht numerisch."
 }
