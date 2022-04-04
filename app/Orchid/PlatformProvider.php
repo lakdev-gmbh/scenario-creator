@@ -87,7 +87,7 @@ class PlatformProvider extends OrchidServiceProvider
             ItemPermission::group(__('Scenario'))
                 ->addPermission('platform.scenario.edit', __('Create/Edit scenarios'))
                 ->addPermission('platform.scenario.access_all', __('Access all scenarios'))
-                ->addPermission('platform.scenario.access_own', __('Access own scenarios'))->addPermission('platform.scenario.access_own', __('Access own scenarios'))
+                ->addPermission('platform.scenario.access_own', __('Access own scenarios'))
                 ->addPermission('platform.scenario.access_shared', __('Access shared scenarios'))
         ];
     }
