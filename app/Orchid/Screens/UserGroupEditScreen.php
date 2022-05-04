@@ -61,7 +61,7 @@ class UserGroupEditScreen extends Screen
         $author_id = Auth::id();
         $userGroup->user_watermelon_id = $author_id;
         $userGroup->save();
-        if ($this->exists) {
+        if ($userGroup->exists) {
             $userGroup->replaceUsers($request->input('user_group.users'));
         } else {
             // On create add author automatically.

@@ -59,7 +59,7 @@ class InfoTextEditScreen extends Screen
     {
         $infoText->fill($request->get('info_text'));
         $infoText->task_group_watermelon_id = $taskGroup->getKey();
-        if (!$this->exists) {
+        if (!$infoText->exists) {
             $infoText->weight = $infoText->taskGroup->taskGroupElements()->count() - 1;
         }
         $infoText->save();

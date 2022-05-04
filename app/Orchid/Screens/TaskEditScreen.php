@@ -85,7 +85,7 @@ class TaskEditScreen extends Screen
         $task->fill($request->get('task'));
         $task->type = $type;
         $task->task_group_watermelon_id = $taskGroup->getKey();
-        if (!$this->exists) {
+        if (!$task->exists) {
             $task->weight = $task->taskGroup->taskGroupElements()->count() - 1;
         }
         $task->save();

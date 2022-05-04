@@ -71,7 +71,7 @@ class TaskGroupEditScreen extends Screen
         $this->exists = $taskGroup->exists;
         $taskGroup->fill($request->get('task_group'));
         $taskGroup->scenario_watermelon_id = $scenario->getKey();
-        if (!$this->exists) {
+        if (!$taskGroup->exists) {
             $taskGroup->weight = $taskGroup->scenario->taskGroups()
                     ->count() - 1;
         }
