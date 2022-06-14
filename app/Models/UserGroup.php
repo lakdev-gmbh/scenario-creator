@@ -35,7 +35,8 @@ class UserGroup extends Model
     ];
 
     public function users() {
-        return $this->belongsToMany(User::class,  'users_user_groups' , 'user_group_watermelon_id','user_watermelon_id');
+        return $this->belongsToMany(User::class,  'users_user_groups' , 'user_group_watermelon_id','user_watermelon_id',
+            'watermelon_id', 'id');
     }
 
     public function scenarios() {

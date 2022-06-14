@@ -133,7 +133,7 @@ class UserGroupEditScreen extends Screen
         if ($this->exists) {
             $layout[] =
                 Relation::make('user_group.users.')
-                    ->fromModel(User::class, 'name', 'watermelon_id')
+                    ->fromModel(User::class, 'name')
                     ->multiple()
                     ->title('Choose users');
         }

@@ -82,7 +82,8 @@ class User extends Authenticatable
     ];
 
     public function userGroups() {
-        return $this->belongsToMany(UserGroup::class, 'users_user_groups', 'user_watermelon_id','user_group_watermelon_id');
+        return $this->belongsToMany(UserGroup::class, 'users_user_groups', 'user_watermelon_id','user_group_watermelon_id',
+            'id', 'watermelon_id');
     }
 
     public function scenarios() {
