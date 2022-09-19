@@ -77,7 +77,7 @@ class ScenarioEditScreen extends Screen
 
         $scenario->replaceUserGroups($request->input('scenario.user_groups'));
 
-        Alert::info('Scenario saved.');
+        Alert::info(__('Scenario saved.'));
 
         return redirect()->route('platform.scenario.edit', [
             'scenario' => $scenario->getKey(),
