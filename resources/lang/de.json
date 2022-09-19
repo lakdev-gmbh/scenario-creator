@@ -27,6 +27,7 @@
     "Crop": "Zuschneiden",
     "Delete": "Löschen",
     "Description": "Beschreibung",
+    "Brief description": "Kurze Beschreibung",
     "Display name": "Anzeigename",
     "Edit": "Bearbeiten",
     "Email": "E-Mail",
@@ -104,6 +105,15 @@
     "Title": "Titel",
     "Preview": "Vorschau",
     "My Scenarios": "Meine Szenarien",
+    "Creating a new Scenario": "Neues Szenario erstellen",
+    "Create scenario": "Szenario erstellen",
+    "Edit scenario": "Szenario bearbeiten",
+    "Scenario saved.": "Szenario wurde gespeichert.",
+    "Task saved.": "Aufgabe gespeichert.",
+    "Task Group saved.": "Aufgabengruppe wurde gespeichert.",
+    "Info Text saved.": "Infotext wurde gespeichert.",
+    "You have successfully deleted the task group.": "Sie haben erfolgreich die Aufgabengruppe gelöscht.",
+    "Shared Scenarios": "Geteilte Szenarien",
     "Scenarios": "Szenarien",
     "Scenario": "Szenario",
     "User Groups": "Nutzergruppen",
@@ -114,6 +124,8 @@
     "Specify a short descriptive title for this user group.": "Gib einen kurzen Titel für diese Nutzergruppe an.",
     "User groups to share this scenario with": "Nutzergruppen, mit denen dieses Szenario geteilt wird",
     "Task Groups": "Aufgabengruppen",
+    "Creating a new Task Group": "Erstellen einer neuer Aufgabengruppe",
+    "Create task group": "Aufgabengruppe erstellen",
     "Save order": "Reihenfolge speichern",
     "Update": "Aktualisieren",
     "Specify a short descriptive title for this scenario.": "Gib einen kurzen Titel für dieses Szenario an.",
@@ -149,6 +161,7 @@
     "Edit task": "Aufgabe bearbeiten",
     "Update and return to scenario": "Aktualisieren und zum zurück Szenario",
     "Create new": "Hinzufügen",
+    "Create info text": "Infotext erstellen",
 
     "Actions": "Aktionen",
     "Profile": "Profil",
@@ -164,5 +177,23 @@
     "Use the scenario creator to create a unique experience for your students and millions of students around the world.":
             "Nutzen Sie das Szenarien-Erstellungs-Tool, um Ihren Schülern und Millionen von Schülern auf der ganzen Welt ein einzigartiges Lernerlebnis zu bieten. ",
 
-    "Answer is not numeric.": "Die Antwort ist nicht numerisch."
+    "Answer is not numeric.": "Die Antwort ist nicht numerisch.",
+    "Welcome to the Scenario Creator handbook!": "Willkommen im Szenarien-Erstellungs-Tool Handbuch",
+    "Handbook": "Handbuch",
+
+    "My account": "Mein Profil",
+    "Update your account details such as name, email address and password": "Änder Sie Ihre Account-Daten wie Name, E-Mail-Adresse und Passwort",
+    "Profile information": "Profilinformationen",
+    "Update your account's profile information and email address.": "Ändern Sie Ihre Informationen und E-Mail-Adresse Ihres Profils",
+    "Current password": "Altes Passwort",
+    "New password": "Neues Passwort",
+    "Confirm new password": "Neues Passwort bestätigen",
+    "Enter the current password": "Geben Sie ihr aktuelles Passwort ein",
+    "Enter the password to be set": "Geben Sie ihr neues Passwort ein",
+    "This is your password set at the moment.": "Dies ist ihr aktives Password",
+    "A good password is at least 15 characters or at least 8 characters long, including a number and a lowercase letter.": "Ein gutes Passwort ist mindestens 15 Zeichen lang oder 8 Zeichen lang mit Zahlen und kleinen Buchstaben.",
+    "Ensure your account is using a long, random password to stay secure.": "Vergewissern Sie sich, dass Ihr Acccount ein langes zufälliges Passwort besitzt um mehr Sicherheit zu waren.",
+    "Update password": "Passwort aktualisieren",
+
+    "Manage roles": "Rollen verwalten"
 }

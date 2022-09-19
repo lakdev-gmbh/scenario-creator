@@ -85,7 +85,7 @@ class UserGroupEditScreen extends Screen
     {
         $userGroup->delete();
 
-        Alert::info('You have successfully deleted the task group.');
+        Alert::info(__('You have successfully deleted the task group.'));
 
         return redirect()->route('platform.user_group.list');
     }
