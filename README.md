@@ -11,13 +11,15 @@
 2. Download database from production or create database and .env file from [.env.example](.env.example) and insert APP_KEY
 3. Run docker desktop
 4. Create and start containers: `ddev start`
-5. `ddev composer install` where you have to insert the path to the database
-6. `ddev launch` 
+5. `ddev composer install` 
+6. `ddev import-db --src=/path/to/db.sql.gz.` where you have to insert your path to the database
+7. `ddev launch` 
 
-### Other Useful Commands
+## Other Useful Commands
 
 - Stop container (current state will be saved): `ddev stop`
 - Enable debugging: `ddev xdebug on`
+- `ddev launch -m` to see mails sent out
 
 ## Starting when already installed
 
