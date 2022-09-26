@@ -8,7 +8,7 @@
             </h2>
         </div>
         <div class="col col-lg-6 mt-6 p-4 pe-md-0">
-            <img style="max-height: 100px;" class="img-fluid" src="/img/co-financed-EU-de.png"
+            <img style="max-height: 100px;" class="img-fluid" src="{{ __('/img/co-financed-EU-en.png') }}"
                  alt="{{ __('Co-financed by the European Union') }}"/>
         </div>
     </div>
