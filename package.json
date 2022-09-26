@@ -13,7 +13,8 @@
         "axios": "^0.21",
         "laravel-mix": "^6.0.6",
         "lodash": "^4.17.19",
-        "postcss": "^8.1.14"
+        "postcss": "^8.1.14",
+        "flag-icons": "^6.6.4"
     },
     "dependencies": {
         "html5sortable": "^0.13.3"
