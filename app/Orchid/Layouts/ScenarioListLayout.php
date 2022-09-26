@@ -58,6 +58,12 @@ class ScenarioListLayout extends Table
                         ->icon('options-vertical')
                         ->list($group);
                 }),
+            TD::make('play', __('Play'))
+                ->render(function (Scenario $scenario) {
+                    return Link::make()
+                        ->icon('control-play')
+                        ->route('platform.scenario.play', $scenario);
+                }),
         ];
     }
 
