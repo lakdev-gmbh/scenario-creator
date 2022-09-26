@@ -2,6 +2,8 @@
 
 use App\Models\Scenario;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Session;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,3 +22,9 @@ Route::get('/', function () {
 Route::get('scenario', function () {
     return Scenario::with('taskGroups.tasks', 'taskGroups.infoTexts')->first();
 });
+Route::get('set-locale/{locale}', function ($locale) {
+    App::setLocale($locale);
+    Session::put('locale',$locale);
+    Session::save();
+    return back();
+})->name('locale.setting');
