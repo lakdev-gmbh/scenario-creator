@@ -64,7 +64,7 @@ class InfoTextEditScreen extends Screen
         }
         $infoText->save();
 
-        Alert::info('Info Text saved.');
+        Alert::info(__('Info Text saved.'));
 
         return redirect()->route('platform.task_group.edit', [
             'scenario' => $taskGroup->scenario->getKey(),
