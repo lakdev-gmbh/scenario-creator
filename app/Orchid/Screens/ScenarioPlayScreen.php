@@ -7,15 +7,8 @@ use Orchid\Support\Facades\Layout;
 use App\Models\App;
 use App\Models\Scenario;
 use Illuminate\Http\Request;
-use App\Orchid\Fields\Order;
 use App\Orchid\Fields\PlayScenario;
 use Orchid\Screen\Actions\Link;
-use Orchid\Screen\Fields\Input;
-use Orchid\Screen\Fields\Picture;
-use Orchid\Screen\Fields\Relation;
-use Orchid\Screen\Fields\Select;
-use Orchid\Screen\Fields\TextArea;
-use Orchid\Support\Facades\Alert;
 
 class ScenarioPlayScreen extends Screen
 {
@@ -24,7 +17,7 @@ class ScenarioPlayScreen extends Screen
      *
      * @var string
      */
-    public $name = 'Play Scenario';
+    public $name = 'Play scenario';
 
     /**
      * @var bool
@@ -72,13 +65,13 @@ class ScenarioPlayScreen extends Screen
     public function layout(): array
     {
         $layout = [
-            PlayScenario::make('taskGroups')
-                ->title('Play Scenario')
-                ->scenario($this->scenario),
+            PlayScenario::make('playScenario')
+                ->scenario(Scenario::with('taskGroups.tasks', 'taskGroups.infoTexts')
+                    ->get()
+                    ->where("watermelon_id", "=", $this->scenario->watermelon_id)),
         ];
 
         return [
-            //Layout::view('admin.handbook', $this->scenario)
             Layout::rows($layout),
         ];
     }
