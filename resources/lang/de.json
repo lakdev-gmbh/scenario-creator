@@ -107,6 +107,8 @@
     "My Scenarios": "Meine Szenarien",
     "Creating a new Scenario": "Neues Szenario erstellen",
     "Create scenario": "Szenario erstellen",
+    "Play scenario": "Szenario spielen",
+    "Play": "Spielen",
     "Edit scenario": "Szenario bearbeiten",
     "Scenario saved.": "Szenario wurde gespeichert.",
     "Task saved.": "Aufgabe gespeichert.",
@@ -171,11 +173,9 @@
     "Scenario Creator": "Szenarien-Erstellungs-Tool",
     "Welcome to our Scenario Creator!": "Willkommen zum Szenarien-Erstellungs-Tool!",
     "Explore the handbook": "Handbuch durchstöbern",
-    "The handbook contains all information you need to create educational, exciting and unique scenarios.":
-            "Das Handbuch enthält alle Informationen, die Sie benötigen, um lehrreiche, spannende und einzigartige Szenarien zu erstellen.",
+    "The handbook contains all information you need to create educational, exciting and unique scenarios.": "Das Handbuch enthält alle Informationen, die Sie benötigen, um lehrreiche, spannende und einzigartige Szenarien zu erstellen.",
     "Create a scenario": "Szenario erstellen",
-    "Use the scenario creator to create a unique experience for your students and millions of students around the world.":
-            "Nutzen Sie das Szenarien-Erstellungs-Tool, um Ihren Schülern und Millionen von Schülern auf der ganzen Welt ein einzigartiges Lernerlebnis zu bieten. ",
+    "Use the scenario creator to create a unique experience for your students and millions of students around the world.": "Nutzen Sie das Szenarien-Erstellungs-Tool, um Ihren Schülern und Millionen von Schülern auf der ganzen Welt ein einzigartiges Lernerlebnis zu bieten. ",
 
     "Answer is not numeric.": "Die Antwort ist nicht numerisch.",
     "Welcome to the Scenario Creator handbook!": "Willkommen im Szenarien-Erstellungs-Tool Handbuch",
