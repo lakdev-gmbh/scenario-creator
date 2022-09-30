@@ -39,11 +39,13 @@ class ScenarioPlayScreen extends Screen
         $this->exists = $scenario->exists;
 
         if ($this->exists) {
-            $this->scenario = $scenario;
+            $this->scenario = Scenario::with('taskGroups.tasks', 'taskGroups.infoTexts')
+                                ->get()
+                                ->where("watermelon_id", "=", $scenario->watermelon_id);
         }
 
         return [
-            'scenario' => $scenario,
+            'scenario' => $this->scenario,
         ];
     }
 
@@ -64,15 +66,8 @@ class ScenarioPlayScreen extends Screen
      */
     public function layout(): array
     {
-        $layout = [
-            PlayScenario::make('playScenario')
-                ->scenario(Scenario::with('taskGroups.tasks', 'taskGroups.infoTexts')
-                    ->get()
-                    ->where("watermelon_id", "=", $this->scenario->watermelon_id)),
-        ];
-
         return [
-            Layout::rows($layout),
+            Layout::view('playScenario', ['scenario' => $this->scenario])
         ];
     }
 }
