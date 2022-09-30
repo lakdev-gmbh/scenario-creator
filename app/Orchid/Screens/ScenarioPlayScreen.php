@@ -20,6 +20,11 @@ class ScenarioPlayScreen extends Screen
     public $name = 'Play scenario';
 
     /**
+     * @var string
+     */
+    public $permission = 'platform.scenario.access_all';
+
+    /**
      * @var bool
      */
     public $exists = false;
