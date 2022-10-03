@@ -21,6 +21,7 @@
         "laravel/tinker": "^2.5",
         "nathanheffley/laravel-watermelon": "dev-main",
         "orchid/platform": "^13.0",
+        "spatie/laravel-backup": "^8.1",
         "staudenmeir/eloquent-has-many-deep": "^1.7"
     },
     "require-dev": {
