@@ -95,11 +95,6 @@ class ScenarioEditScreen extends Screen
         ]);
     }
 
-    public function play(Scenario $scenario)
-    {
-        return redirect()->route('platform.scenario.play', $scenario);
-    }
-
     /**
      * @param  Scenario  $scenario
      *
@@ -140,9 +135,9 @@ class ScenarioEditScreen extends Screen
                 ->method('remove')
                 ->canSee($this->exists),
 
-            Button::make('Play')
+            Link::make('Play')
                 ->icon('control-play')
-                ->method('play')
+                ->route('platform.scenario.play', $this->scenario)
                 ->canSee($this->exists),
         ];
     }
