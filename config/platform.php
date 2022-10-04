@@ -115,7 +115,8 @@ return [
             '/css/app.css'
         ],
         'scripts'     => [
-            '/js/app.js'
+            '/js/app.js',
+            '/js/admin/quill.hover.js'
         ],
     ],
 
