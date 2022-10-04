@@ -21,7 +21,7 @@ Route::get('/', function () {
 });
 Route::get('scenario', function () {
     return Scenario::with('taskGroups.tasks', 'taskGroups.infoTexts')->first();
-});
+})->middleware('cors');
 Route::get('set-locale/{locale}', function ($locale) {
     App::setLocale($locale);
     Session::put('locale',$locale);
