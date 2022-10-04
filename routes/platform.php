@@ -18,6 +18,7 @@ use App\Orchid\Screens\ScenarioEditScreen;
 use App\Orchid\Screens\ScenarioListOwnScreen;
 use App\Orchid\Screens\ScenarioListScreen;
 use App\Orchid\Screens\ScenarioListSharedScreen;
+use App\Orchid\Screens\ScenarioPlayScreen;
 use App\Orchid\Screens\TaskEditScreen;
 use App\Orchid\Screens\TaskGroupEditScreen;
 use App\Orchid\Screens\User\UserEditScreen;
@@ -136,6 +137,14 @@ Route::screen('shared-scenarios', ScenarioListSharedScreen::class)
         return $trail
             ->parent('platform.index')
             ->push(__('Shared Scenarios'), route('platform.scenario.list_shared'));
+    });
+
+Route::screen('playscenario/{scenario?}', ScenarioPlayScreen::class)
+    ->name('platform.scenario.play')
+    ->breadcrumbs(function (Trail $trail) {
+        return $trail
+            ->parent('platform.scenario.list')
+            ->push(__('Play'), route('platform.scenario.play'));
     });
 
 Route::screen('task_group/{scenario}/{task_group?}', TaskGroupEditScreen::class)

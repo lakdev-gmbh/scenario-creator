@@ -134,6 +134,11 @@ class ScenarioEditScreen extends Screen
                 ->confirm(__('Are you sure you want to delete this scenario?'))
                 ->method('remove')
                 ->canSee($this->exists),
+
+            Link::make('Play')
+                ->icon('control-play')
+                ->route('platform.scenario.play', $this->scenario)
+                ->canSee($this->exists),
         ];
     }
 
