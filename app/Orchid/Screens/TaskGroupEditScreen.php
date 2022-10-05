@@ -65,9 +65,12 @@ class TaskGroupEditScreen extends Screen
 
     public function createOrUpdate(
         Scenario $scenario,
-        TaskGroup $taskGroup,
-        Request $request
+        Request $request,
+        ?TaskGroup $taskGroup = null
     ) {
+        if (is_null($taskGroup)) {
+            $taskGroup = new TaskGroup();
+        }
         $this->exists = $taskGroup->exists;
         $taskGroup->fill($request->get('task_group'));
         $taskGroup->scenario_watermelon_id = $scenario->getKey();

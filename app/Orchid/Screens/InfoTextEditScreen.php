@@ -55,8 +55,11 @@ class InfoTextEditScreen extends Screen
         ];
     }
 
-    public function createOrUpdate(TaskGroup $taskGroup, InfoText $infoText, Request $request)
+    public function createOrUpdate(TaskGroup $taskGroup, Request $request, ?InfoText $infoText = null )
     {
+        if (is_null($infoText)) {
+            $infoText = new InfoText();
+        }
         $infoText->fill($request->get('info_text'));
         $infoText->task_group_watermelon_id = $taskGroup->getKey();
         if (!$infoText->exists) {

@@ -72,9 +72,12 @@ class TaskEditScreen extends Screen
     public function createOrUpdate(
         TaskGroup $taskGroup,
         $type,
-        Task $task,
-        Request $request
+        Request $request,
+        ?Task $task = null
     ) {
+        if (is_null($task)) {
+            $task = new Task();
+        }
         // Validate numeric answers
         if ($type === Task::NUMERIC) {
             $request->validate([
