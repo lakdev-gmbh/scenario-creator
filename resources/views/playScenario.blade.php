@@ -171,11 +171,14 @@
     // Aufgabengruppen (taskgroups)
     var aufgabengruppen = document.getElementById('aufgabengruppenContainer');
 
+    // Aufgabengruppen json
+    aufgabengruppenJson = jsonResult['task_groups'].sort((a,b) => a.weight - b.weight);
+
     // Aufgabengruppen erstellen
     for (var i = 0; i < jsonResult['task_groups'].length; i++) {
 
         // Aufgabengruppe json
-        var aufgabengruppeJson = jsonResult['task_groups'][i];
+        var aufgabengruppeJson = aufgabengruppenJson[i];
 
         // Aufgabengruppe erstellen
         var aufgabengruppe = document.createElement('div');
@@ -187,44 +190,11 @@
         aufgabengruppeTitle.innerHTML = aufgabengruppeJson['title'];
         aufgabengruppe.appendChild(aufgabengruppeTitle)
 
-        // Infotexte Container
-        var infotextContainer = document.createElement('div');
-        infotextContainer.setAttribute('class', 'infotexte');
-        aufgabengruppe.appendChild(infotextContainer);
-
-        // Aufgaben Container
-        var aufgabenContainer = document.createElement('div');
-        aufgabenContainer.setAttribute('class', 'aufgaben')
-        aufgabengruppe.appendChild(aufgabenContainer);
-
         // Infotexte json
-        var infotexteJson = aufgabengruppeJson['info_texts'];
+        var infotexteJson = aufgabengruppeJson['info_texts'].sort((a,b) => b.weight - a.weight);
 
         // Aufgaben json
-        var aufgabenJson = aufgabengruppeJson['tasks'];
-
-        // Infotexte erstellen
-        for (var j = 0; j < aufgabengruppeJson['info_texts'].length; j++) {
-
-            // Infotext json
-            var infotextJson = infotexteJson[j];
-
-            // Infotext
-            var infotext = document.createElement('div');
-            infotextContainer.appendChild(infotext);
-
-            // Infotext Titel erstellen
-            var infotextTitle = document.createElement('h3');
-            infotextTitle.setAttribute('class', 'infotextTitle');
-            infotextTitle.innerHTML = infotextJson['title'];
-            infotext.appendChild(infotextTitle);
-
-            // Infotext Body erstellen
-            var infotextBody = document.createElement('div');
-            infotextBody.setAttribute('class', 'infotextBody');
-            infotextBody.innerHTML = infotextJson['body'];
-            infotext.appendChild(infotextBody);
-        }
+        var aufgabenJson = aufgabengruppeJson['tasks'].sort((a,b) => a.weight - b.weight);
 
         // Erstellen der Aufgaben
         for (var k = 0; k < aufgabenJson.length; k++) {
@@ -235,7 +205,8 @@
             // Aufgabe
             var aufgabe = document.createElement('div');
             aufgabe.setAttribute('class', "aufgabe" + k);
-            aufgabenContainer.appendChild(aufgabe);
+            aufgabe.className += ' weight' + aufgabeJson['weight'];
+            aufgabengruppe.appendChild(aufgabe);
 
             // Aufgabe Titel erstellen
             var aufgabeTitle = document.createElement('h4');
@@ -290,8 +261,8 @@
             button.onclick = function (event) {
 
                 // Aufgabendaten herauslesen
-                let aufgabengruppeNummer = event.target.parentElement.parentElement.parentElement.id.replace(/\D/g, '');
-                let aufgabeNummer = event.target.parentElement.className.replace(/\D/g, '');
+                let aufgabengruppeNummer = event.target.parentElement.parentElement.id.replace(/\D/g, '');
+                let aufgabeNummer = event.target.parentElement.className.split(' ')[0].replace(/\D/g, '');
                 let antworten = event.target.parentElement.getElementsByClassName('antworten')[0].children;
                 let aufgabeJson = jsonResult['task_groups'][aufgabengruppeNummer]['tasks'][aufgabeNummer];
 
@@ -319,6 +290,36 @@
                 }
 
             }
+        }
+
+        // Infotexte erstellen
+        for (var j = 0; j < aufgabengruppeJson['info_texts'].length; j++) {
+
+        // Infotext json
+        var infotextJson = infotexteJson[j];
+
+        // Infotext
+        var infotext = document.createElement('div');
+        let weight = infotextJson['weight'];
+        infotext.setAttribute('class',  'weight' + weight)
+        let elements = aufgabengruppe.getElementsByClassName('weight' + (weight+1));
+        if (elements.length === 0) {
+            aufgabengruppe.appendChild(infotext);
+        } else {
+            aufgabengruppe.insertBefore(infotext, elements[0]);
+        }
+
+        // Infotext Titel erstellen
+        var infotextTitle = document.createElement('h3');
+        infotextTitle.setAttribute('class', 'infotextTitle');
+        infotextTitle.innerHTML = infotextJson['title'];
+        infotext.appendChild(infotextTitle);
+
+        // Infotext Body erstellen
+        var infotextBody = document.createElement('div');
+        infotextBody.setAttribute('class', 'infotextBody');
+        infotextBody.innerHTML = infotextJson['body'];
+        infotext.appendChild(infotextBody);
         }
         // }
     }

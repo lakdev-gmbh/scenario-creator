@@ -22,7 +22,7 @@ class ScenarioPlayScreen extends Screen
     /**
      * @var string
      */
-    public $permission = 'platform.scenario.play';
+    public $permission = 'platform.scenario.access_all';
 
     /**
      * @var bool
