@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -66,7 +67,7 @@
             display: block;
         }
 
-        input[type = checkbox] {
+        input[type=checkbox] {
             margin-left: 5px;
         }
 
@@ -131,201 +132,192 @@
             opacity: 1;
             transition: 0s
         }
-
     </style>
 
 </head>
+
 <body>
-<div class='seite'>
-    <h1 id="titel">Der Titel des Scenario</h1>
-    <div class='beschreibungmitte'>
-        <p id="description" class='beschreibung'>Beschreibung des Scenarios</p>
+    <div class='seite'>
+        <h1 id="titel">Der Titel des Scenario</h1>
+        <div class='beschreibungmitte'>
+            <p id="description" class='beschreibung'>Beschreibung des Scenarios</p>
+        </div>
+        <div class='image'><img id="scenariobild" /></div>
+        <div id="aufgabengruppenContainer" class="aufgabengruppen">
+        </div>
+        <p>&nbsp;</p>
     </div>
-    <div class='image'><img id="scenariobild"/></div>
-    <div id="aufgabengruppenContainer" class="aufgabengruppen">
-    </div>
-    <p>&nbsp;</p>
-</div>
-<script>
+    <script>
+        // Auslesen der Datenbank
+        var path = "https://scenario.laknet.de/";
 
-    // Auslesen der Datenbank
-    var path = "https://scenario.laknet.de/";
-    // var requestURL = path + 'scenario';
-    // var request = new XMLHttpRequest();
-    // request.open("get", requestURL);
-    // request.responseType = 'json';
-    // request.send();
-    // request.onload = function() {
+        // Speichere das Szenario in jsonResult
+        var jsonResult = {{ \Illuminate\Support\Js::from($scenario) }};
+        if (Object.keys(jsonResult).length < 2) {
+            jsonResult = jsonResult[Object.keys(jsonResult)[0]];
+        }
 
-    // Speichere das Szenario in jsonResult
-    var jsonResult = {{ \Illuminate\Support\Js::from($scenario) }};
-    if (Object.keys(jsonResult).length < 2) {
-        jsonResult = jsonResult[Object.keys(jsonResult)[0]];
-    }
+        // Allgemeine Angaben zum Scenario
+        document.getElementById("titel").innerHTML = jsonResult['title'];
+        document.getElementById("description").innerHTML = jsonResult['description'];
+        document.getElementById('scenariobild').src = path + jsonResult['image'];
 
-    // Allgemeine Angaben zum Scenario
-    document.getElementById("titel").innerHTML = jsonResult['title'];
-    document.getElementById("description").innerHTML = jsonResult['description'];
-    document.getElementById('scenariobild').src = path + jsonResult['image'];
+        // Aufgabengruppen (taskgroups)
+        var aufgabengruppen = document.getElementById('aufgabengruppenContainer');
 
-    // Aufgabengruppen (taskgroups)
-    var aufgabengruppen = document.getElementById('aufgabengruppenContainer');
+        // Aufgabengruppen json
+        aufgabengruppenJson = jsonResult['task_groups'].sort((a, b) => a.weight - b.weight);
 
-    // Aufgabengruppen json
-    aufgabengruppenJson = jsonResult['task_groups'].sort((a,b) => a.weight - b.weight);
+        // Aufgabengruppen erstellen
+        for (var i = 0; i < jsonResult['task_groups'].length; i++) {
 
-    // Aufgabengruppen erstellen
-    for (var i = 0; i < jsonResult['task_groups'].length; i++) {
+            // Aufgabengruppe json
+            var aufgabengruppeJson = aufgabengruppenJson[i];
 
-        // Aufgabengruppe json
-        var aufgabengruppeJson = aufgabengruppenJson[i];
+            // Aufgabengruppe erstellen
+            var aufgabengruppe = document.createElement('div');
+            aufgabengruppe.setAttribute('id', 'aufgabengruppe' + i);
+            aufgabengruppen.appendChild(aufgabengruppe);
 
-        // Aufgabengruppe erstellen
-        var aufgabengruppe = document.createElement('div');
-        aufgabengruppe.setAttribute('id', 'aufgabengruppe' + i);
-        aufgabengruppen.appendChild(aufgabengruppe);
+            // Aufgabengruppe Titel erstellen
+            var aufgabengruppeTitle = document.createElement('h2');
+            aufgabengruppeTitle.innerHTML = aufgabengruppeJson['title'];
+            aufgabengruppe.appendChild(aufgabengruppeTitle)
 
-        // Aufgabengruppe Titel erstellen
-        var aufgabengruppeTitle = document.createElement('h2');
-        aufgabengruppeTitle.innerHTML = aufgabengruppeJson['title'];
-        aufgabengruppe.appendChild(aufgabengruppeTitle)
+            // Infotexte json
+            var infotexteJson = aufgabengruppeJson['info_texts'].sort((a, b) => b.weight - a.weight);
 
-        // Infotexte json
-        var infotexteJson = aufgabengruppeJson['info_texts'].sort((a,b) => b.weight - a.weight);
+            // Aufgaben json
+            var aufgabenJson = aufgabengruppeJson['tasks'].sort((a, b) => a.weight - b.weight);
 
-        // Aufgaben json
-        var aufgabenJson = aufgabengruppeJson['tasks'].sort((a,b) => a.weight - b.weight);
+            // Erstellen der Aufgaben
+            for (var k = 0; k < aufgabenJson.length; k++) {
 
-        // Erstellen der Aufgaben
-        for (var k = 0; k < aufgabenJson.length; k++) {
+                // Aufgabe json
+                var aufgabeJson = aufgabenJson[k];
 
-            // Aufgabe json
-            var aufgabeJson = aufgabenJson[k];
+                // Aufgabe
+                var aufgabe = document.createElement('div');
+                aufgabe.setAttribute('class', "aufgabe" + k);
+                aufgabe.className += ' weight' + aufgabeJson['weight'];
+                aufgabengruppe.appendChild(aufgabe);
 
-            // Aufgabe
-            var aufgabe = document.createElement('div');
-            aufgabe.setAttribute('class', "aufgabe" + k);
-            aufgabe.className += ' weight' + aufgabeJson['weight'];
-            aufgabengruppe.appendChild(aufgabe);
+                // Aufgabe Titel erstellen
+                var aufgabeTitle = document.createElement('h4');
+                aufgabeTitle.innerHTML = aufgabeJson['title'];
+                aufgabe.appendChild(aufgabeTitle);
 
-            // Aufgabe Titel erstellen
-            var aufgabeTitle = document.createElement('h4');
-            aufgabeTitle.innerHTML = aufgabeJson['title'];
-            aufgabe.appendChild(aufgabeTitle);
+                // Aufgabe Frage erstellen
+                var aufgabeQuestion = document.createElement('div');
+                aufgabeQuestion.setAttribute('class', 'frage');
+                aufgabeQuestion.innerHTML = aufgabeJson['question'];
+                aufgabe.appendChild(aufgabeQuestion);
 
-            // Aufgabe Frage erstellen
-            var aufgabeQuestion = document.createElement('div');
-            aufgabeQuestion.setAttribute('class', 'frage');
-            aufgabeQuestion.innerHTML = aufgabeJson['question'];
-            aufgabe.appendChild(aufgabeQuestion);
+                // Aufgabe Antworten Container
+                var aufgabeAntworten = document.createElement('div');
+                aufgabeAntworten.setAttribute('class', 'antworten');
+                aufgabe.appendChild(aufgabeAntworten);
 
-            // Aufgabe Antworten Container
-            var aufgabeAntworten = document.createElement('div');
-            aufgabeAntworten.setAttribute('class', 'antworten');
-            aufgabe.appendChild(aufgabeAntworten);
-
-            // Aufgabe Antworten erstellen
-            switch (aufgabeJson['type']) {
-                case "numeric" :
-                    var antwort = document.createElement('input');
-                    antwort.type = 'number';
-                    aufgabeAntworten.appendChild(antwort);
-                    break;
-                case "multiple_choice":
-                    var possible_answers = Object.values(aufgabeJson['possible_answers']);
-
-                    // Jede Auswahlmöglichkeit erstellen
-                    for (var l = 0; l < possible_answers.length; l++) {
-                        var label = document.createElement('label');
-                        label.innerHTML = possible_answers[l].answer;
-                        aufgabeAntworten.appendChild(label);
+                // Aufgabe Antworten erstellen
+                switch (aufgabeJson['type']) {
+                    case "numeric":
                         var antwort = document.createElement('input');
-                        antwort.type = 'checkbox';
-                        label.appendChild(antwort);
-                    }
-                    break;
-                case "text" :
-                    var antwort = document.createElement('input');
-                    antwort.type = 'text';
-                    aufgabeAntworten.appendChild(antwort);
-                    break;
-                // TODO: Multiple-Choice-Aufgaben mit Bildern hinzufügen
-                case "" :
-                    break;
-            }
-            // Button zum Prüfen erstellen
-            var button = document.createElement('button');
-            button.innerHTML = 'Prüfen';
-            button.setAttribute('class', 'button');
-            aufgabe.appendChild(button);
-            button.onclick = function (event) {
+                        antwort.type = 'number';
+                        aufgabeAntworten.appendChild(antwort);
+                        break;
+                    case "multiple_choice":
+                        var possible_answers = Object.values(aufgabeJson['possible_answers']);
 
-                // Aufgabendaten herauslesen
-                let aufgabengruppeNummer = event.target.parentElement.parentElement.id.replace(/\D/g, '');
-                let aufgabeNummer = event.target.parentElement.className.split(' ')[0].replace(/\D/g, '');
-                let antworten = event.target.parentElement.getElementsByClassName('antworten')[0].children;
-                let aufgabeJson = jsonResult['task_groups'][aufgabengruppeNummer]['tasks'][aufgabeNummer];
+                        // Jede Auswahlmöglichkeit erstellen
+                        for (var l = 0; l < possible_answers.length; l++) {
+                            var label = document.createElement('label');
+                            label.innerHTML = possible_answers[l].answer;
+                            aufgabeAntworten.appendChild(label);
+                            var antwort = document.createElement('input');
+                            antwort.type = 'checkbox';
+                            label.appendChild(antwort);
+                        }
+                        break;
+                    case "text":
+                        var antwort = document.createElement('input');
+                        antwort.type = 'text';
+                        aufgabeAntworten.appendChild(antwort);
+                        break;
+                        // TODO: Multiple-Choice-Aufgaben mit Bildern hinzufügen
+                    case "":
+                        break;
+                }
+                // Button zum Prüfen erstellen
+                var button = document.createElement('button');
+                button.innerHTML = 'Prüfen';
+                button.setAttribute('class', 'button');
+                aufgabe.appendChild(button);
+                button.onclick = function(event) {
 
-                let korrekt = true;
+                    // Aufgabendaten herauslesen
+                    let aufgabengruppeNummer = event.target.parentElement.parentElement.id.replace(/\D/g, '');
+                    let aufgabeNummer = event.target.parentElement.className.split(' ')[0].replace(/\D/g, '');
+                    let antworten = event.target.parentElement.getElementsByClassName('antworten')[0].children;
+                    let aufgabeJson = jsonResult['task_groups'][aufgabengruppeNummer]['tasks'][aufgabeNummer];
 
-                // If else zum Überprüfen der Richtigkeit
-                // TODO: Bei Multiple-Choice-Aufgaben mit Bildern Lösung überprüfen
-                if (aufgabeJson['type'] === 'multiple_choice') {
-                    for (let y = 0; y < antworten.length; y++) {
-                        if (antworten[y].children[0].checked != aufgabeJson['possible_answers']['' + (y + 1)]['is_correct']) {
+                    let korrekt = true;
+
+                    // If else zum Überprüfen der Richtigkeit
+                    // TODO: Bei Multiple-Choice-Aufgaben mit Bildern Lösung überprüfen
+                    if (aufgabeJson['type'] === 'multiple_choice') {
+                        for (let y = 0; y < antworten.length; y++) {
+                            if (antworten[y].children[0].checked != aufgabeJson['possible_answers']['' + (y + 1)]['is_correct']) {
+                                korrekt = false;
+                                break;
+                            }
+                        }
+                    } else {
+                        if (antworten[0].value != aufgabeJson['correct_answer']) {
                             korrekt = false;
-                            break;
                         }
                     }
-                } else {
-                    if (antworten[0].value != aufgabeJson['correct_answer']) {
-                        korrekt = false;
+
+                    if (korrekt) {
+                        event.target.style.backgroundColor = 'green';
+                    } else {
+                        event.target.style.backgroundColor = 'red';
                     }
-                }
 
-                if (korrekt) {
-                    event.target.style.backgroundColor = 'green';
+                }
+            }
+
+            // Infotexte erstellen
+            for (var j = 0; j < aufgabengruppeJson['info_texts'].length; j++) {
+
+                // Infotext json
+                var infotextJson = infotexteJson[j];
+
+                // Infotext
+                var infotext = document.createElement('div');
+                let weight = infotextJson['weight'];
+                infotext.setAttribute('class', 'weight' + weight)
+                let elements = aufgabengruppe.getElementsByClassName('weight' + (weight + 1));
+                if (elements.length === 0) {
+                    aufgabengruppe.appendChild(infotext);
                 } else {
-                    event.target.style.backgroundColor = 'red';
+                    aufgabengruppe.insertBefore(infotext, elements[0]);
                 }
 
+                // Infotext Titel erstellen
+                var infotextTitle = document.createElement('h3');
+                infotextTitle.setAttribute('class', 'infotextTitle');
+                infotextTitle.innerHTML = infotextJson['title'];
+                infotext.appendChild(infotextTitle);
+
+                // Infotext Body erstellen
+                var infotextBody = document.createElement('div');
+                infotextBody.setAttribute('class', 'infotextBody');
+                infotextBody.innerHTML = infotextJson['body'];
+                infotext.appendChild(infotextBody);
             }
         }
-
-        // Infotexte erstellen
-        for (var j = 0; j < aufgabengruppeJson['info_texts'].length; j++) {
-
-        // Infotext json
-        var infotextJson = infotexteJson[j];
-
-        // Infotext
-        var infotext = document.createElement('div');
-        let weight = infotextJson['weight'];
-        infotext.setAttribute('class',  'weight' + weight)
-        let elements = aufgabengruppe.getElementsByClassName('weight' + (weight+1));
-        if (elements.length === 0) {
-            aufgabengruppe.appendChild(infotext);
-        } else {
-            aufgabengruppe.insertBefore(infotext, elements[0]);
-        }
-
-        // Infotext Titel erstellen
-        var infotextTitle = document.createElement('h3');
-        infotextTitle.setAttribute('class', 'infotextTitle');
-        infotextTitle.innerHTML = infotextJson['title'];
-        infotext.appendChild(infotextTitle);
-
-        // Infotext Body erstellen
-        var infotextBody = document.createElement('div');
-        infotextBody.setAttribute('class', 'infotextBody');
-        infotextBody.innerHTML = infotextJson['body'];
-        infotext.appendChild(infotextBody);
-        }
-        // }
-    }
-
-</script>
+    </script>
 
 </body>
-</html>
 
+</html>
