@@ -11,8 +11,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\Link;
+use Orchid\Screen\Fields\Cropper;
 use Orchid\Screen\Fields\Input;
-use Orchid\Screen\Fields\Picture;
 use Orchid\Screen\Fields\Relation;
 use Orchid\Screen\Fields\Select;
 use Orchid\Screen\Fields\TextArea;
@@ -156,7 +156,7 @@ class ScenarioEditScreen extends Screen
                 ->required()
                 ->help('Specify a short descriptive title for this scenario.'),
 
-            Picture::make('scenario.image')
+            Cropper::make('scenario.image')
                 ->title('Scenario image')
                 ->targetRelativeUrl(),
 

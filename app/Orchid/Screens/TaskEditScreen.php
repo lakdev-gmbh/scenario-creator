@@ -9,9 +9,9 @@ use App\Rules\NumericAnswer;
 use Illuminate\Http\Request;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Fields\CheckBox;
+use Orchid\Screen\Fields\Cropper;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\Matrix;
-use Orchid\Screen\Fields\Picture;
 use Orchid\Screen\Fields\Select;
 use Orchid\Screen\Fields\TextArea;
 use Orchid\Screen\Screen;
@@ -189,7 +189,7 @@ class TaskEditScreen extends Screen
                             __('Correct?') => 'is_correct',
                         ])
                         ->fields([
-                            'answer'   => Picture::make('answer'),
+                            'answer'   => Cropper::make('answer'),
                             'is_correct' => CheckBox::make('is_correct')->sendTrueOrFalse(),
                         ])
                         ->title(__('Possible answers'))
