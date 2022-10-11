@@ -16,6 +16,10 @@
             font-family: Verdana, Arial, Helvetica, sans-serif;
         }
 
+        .seite img {
+            max-width: 100%;
+        }
+
         h2 {
             color: navy;
             text-decoration: underline;
