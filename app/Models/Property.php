@@ -12,7 +12,7 @@ use NathanHeffley\LaravelWatermelon\Traits\Watermelon;
 use Orchid\Attachment\Attachable;
 use Orchid\Screen\AsSource;
 
-class SchoolYear extends Model
+class Property extends Model
 {
     use HasFactory;
     use AsSource;
@@ -26,13 +26,15 @@ class SchoolYear extends Model
 
     protected $fillable = [
         'name',
+        'type',
     ];
 
     protected $watermelonAttributes = [
-        'name'
+        'name',
+        'type'
     ];
 
     public function scenarios() {
-        return $this->belongsToMany(Scenario::class,  'scenarios_school_years' , 'school_year_watermelon_id', 'scenario_watermelon_id');
+        return $this->belongsToMany(Scenario::class,  'scenarios_properties' , 'property_watermelon_id', 'scenario_watermelon_id');
     }
 }

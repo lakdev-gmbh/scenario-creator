@@ -13,11 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('subjects', function (Blueprint $table) {
-            $table->uuid('watermelon_id');
-            $table->string('name');
-            $table->timestamps();
-            $table->softDeletes();
+        Schema::create('scenarios_properties', function (Blueprint $table) {
+            $table->foreignUuid('scenario_watermelon_id');
+            $table->foreignUuid('property_watermelon_id');
         });
     }
 
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('subjects');
+        Schema::dropIfExists('scenarios_properties');
     }
 };

@@ -54,12 +54,8 @@ class Scenario extends Model implements Editable
         return $this->belongsToMany(UserGroup::class, 'scenarios_user_groups', 'scenario_watermelon_id','user_group_watermelon_id');
     }
 
-    public function subjects() {
-        return $this->belongsToMany(Subject::class, 'scenarios_subjects', 'scenario_watermelon_id','subject_watermelon_id');
-    }
-
-    public function schoolYears() {
-        return $this->belongsToMany(SchoolYear::class, 'scenarios_school_years', 'scenario_watermelon_id','school_year_watermelon_id');
+    public function properties() {
+        return $this->belongsToMany(Property::class, 'scenarios_properties', 'scenario_watermelon_id','property_watermelon_id');
     }
 
     public function replaceUserGroups(?array $userGroups=[]) {
@@ -68,15 +64,9 @@ class Scenario extends Model implements Editable
         return $this;
     }
 
-    public function replaceSubjects(?array $subjects=[]) {
-        $this->subjects()->detach();
-        $this->subjects()->attach($subjects);
-        return $this;
-    }
-
-    public function replaceSchoolYears(?array $schoolYears=[]) {
-        $this->schoolYears()->detach();
-        $this->schoolYears()->attach($schoolYears);
+    public function replaceProperties(?array $properties=[]) {
+        $this->properties()->detach();
+        $this->properties()->attach($properties);
         return $this;
     }
 
