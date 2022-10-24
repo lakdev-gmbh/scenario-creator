@@ -19,6 +19,8 @@ use App\Orchid\Screens\ScenarioListOwnScreen;
 use App\Orchid\Screens\ScenarioListScreen;
 use App\Orchid\Screens\ScenarioListSharedScreen;
 use App\Orchid\Screens\ScenarioPlayScreen;
+use App\Orchid\Screens\SchoolYearEditScreen;
+use App\Orchid\Screens\SchoolYearListScreen;
 use App\Orchid\Screens\SubjectEditScreen;
 use App\Orchid\Screens\SubjectListScreen;
 use App\Orchid\Screens\TaskEditScreen;
@@ -191,4 +193,20 @@ Route::screen('subjects', SubjectListScreen::class)
         return $trail
             ->parent('platform.index')
             ->push(__('Subjects'), route('platform.subject.list'));
+    });
+
+Route::screen('school_year/{school_year?}', SchoolYearEditScreen::class)
+    ->name('platform.school_year.edit')
+    ->breadcrumbs(function (Trail $trail) {
+        return $trail
+            ->parent('platform.school_year.list')
+            ->push(__('Create'), route('platform.school_year.edit'));
+    });
+
+Route::screen('school_years', SchoolYearListScreen::class)
+    ->name('platform.school_year.list')
+    ->breadcrumbs(function (Trail $trail) {
+        return $trail
+            ->parent('platform.index')
+            ->push(__('School Years'), route('platform.school_year.list'));
     });

@@ -4,6 +4,7 @@ namespace App\Orchid\Screens;
 
 use App\Models\App;
 use App\Models\Scenario;
+use App\Models\SchoolYear;
 use App\Models\Subject;
 use App\Models\TaskGroup;
 use App\Models\UserGroup;
@@ -78,6 +79,8 @@ class ScenarioEditScreen extends Screen
         $scenario->replaceUserGroups($request->input('scenario.user_groups'));
 
         $scenario->replaceSubjects($request->input('scenario.subjects'));
+
+        $scenario->replaceSchoolYears($request->input('scenario.school_years'));
 
         Alert::info(__('Scenario saved.'));
 
@@ -175,6 +178,12 @@ class ScenarioEditScreen extends Screen
                     ->multiple()
                     ->value($this->scenario->subjects)
                     ->title('Subjects that this scenario covers');
+            $layout[] =
+                Relation::make('scenario.school_years.')
+                    ->fromModel(SchoolYear::class, 'name', 'watermelon_id')
+                    ->multiple()
+                    ->value($this->scenario->schoolYears)
+                    ->title('School years that this scenario covers');
             $layout[] =
                 Relation::make('scenario.user_groups.')
                     ->fromModel(UserGroup::class, 'title', 'watermelon_id')

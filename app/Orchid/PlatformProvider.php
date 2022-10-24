@@ -53,6 +53,10 @@ class PlatformProvider extends OrchidServiceProvider
                 ->icon('book-open')
                 ->route('platform.subject.list'),
 
+            Menu::make('School Years')
+                ->icon('safari')
+                ->route('platform.school_year.list'),
+
             Menu::make(__('Users'))
                 ->icon('user')
                 ->route('platform.systems.users')
