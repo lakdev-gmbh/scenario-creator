@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('scenarios_school_year', function (Blueprint $table) {
+        Schema::create('scenarios_school_years', function (Blueprint $table) {
             $table->foreignUuid('scenario_watermelon_id');
             $table->foreignUuid('school_year_watermelon_id');
         });
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('scenarios_school_year');
+        Schema::dropIfExists('scenarios_school_years');
     }
 };
