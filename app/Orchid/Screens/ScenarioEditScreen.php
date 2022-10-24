@@ -3,11 +3,12 @@
 namespace App\Orchid\Screens;
 
 use App\Models\App;
-use App\Models\Scenario;
 use App\Models\Property;
+use App\Models\Scenario;
 use App\Models\TaskGroup;
 use App\Models\UserGroup;
 use App\Orchid\Fields\Order;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Orchid\Screen\Actions\Button;
@@ -15,6 +16,7 @@ use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Fields\Cropper;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\Relation;
+use Orchid\Screen\Fields\Select;
 use Orchid\Screen\Fields\TextArea;
 use Orchid\Screen\Screen;
 use Orchid\Support\Facades\Alert;
@@ -67,16 +69,6 @@ class ScenarioEditScreen extends Screen
         ];
     }
 
-    /**
-     * @param Builder $query
-     *
-     * @return Builder
-     */
-    public function scopeType(Builder $query, $type)
-    {
-        return $query->where('type', $type);
-    }
-
 
     public function createOrUpdate(Scenario $scenario, Request $request)
     {
@@ -88,7 +80,20 @@ class ScenarioEditScreen extends Screen
 
         $scenario->replaceUserGroups($request->input('scenario.user_groups'));
 
-        $scenario->replaceProperties($request->input('scenario.properties'));
+        $subjects = $request->input('scenario.subjects', []);
+        $schoolYears = $request->input('scenario.school_years', []);
+        $topics = $request->input('scenario.topics', []);
+        foreach ($topics as $key => $topic) {
+            if (Property::whereWatermelonId($topic)->doesntExist()) {
+                $topic = new Property([
+                    'name' => $topic,
+                    'type' => 'topic',
+                ]);
+                $topic->save();
+                $topics[$key] = $topic->id();
+            }
+        }
+        $scenario->replaceProperties(array_merge($subjects, $schoolYears, $topics));
 
         Alert::info(__('Scenario saved.'));
 
@@ -159,6 +164,7 @@ class ScenarioEditScreen extends Screen
      * Views.
      *
      * @return \Orchid\Screen\Layout[]|string[]
+     * @throws BindingResolutionException
      */
     public function layout(): array
     {
@@ -183,16 +189,21 @@ class ScenarioEditScreen extends Screen
             $layout[] =
                 Relation::make('scenario.subjects.')
                     ->fromModel(Property::class, 'name', 'watermelon_id')
-                    ->applyScope('type','subject')
+                    ->applyScope('type', 'subject')
                     ->multiple()
-                    ->value($this->scenario->properties)
                     ->title('Subjects that this scenario covers');
             $layout[] =
                 Relation::make('scenario.school_years.')
+                    ->applyScope('type', 'school_year')
                     ->fromModel(Property::class, 'name', 'watermelon_id')
                     ->multiple()
-                    ->value($this->scenario->properties)
                     ->title('School years that this scenario covers');
+            $layout[] =
+                Select::make('scenario.topics.')
+                    ->fromQuery(Property::query()->type('topic'), 'name', 'watermelon_id')
+                    ->multiple()
+                    ->allowAdd()
+                    ->title('Topics that this scenario covers');
             $layout[] =
                 Relation::make('scenario.user_groups.')
                     ->fromModel(UserGroup::class, 'title', 'watermelon_id')

@@ -101,6 +101,7 @@ class PropertyEditScreen extends Screen
                 ->options([
                     'subject' => 'Subject',
                     'school_year' => 'School year',
+                    'topic' => 'Topic',
                 ])
                 ->title('Type')
                 ->required()
