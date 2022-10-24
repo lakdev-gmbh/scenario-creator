@@ -64,4 +64,11 @@ class Scenario extends Model implements Editable
         return $this;
     }
 
+    public function replaceSubjects(?array $subjects=[])
+    {
+        $this->subjects()->detach();
+        $this->subjects()->attach($subjects);
+        return $this;
+    }
+
 }

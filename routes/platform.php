@@ -19,6 +19,8 @@ use App\Orchid\Screens\ScenarioListOwnScreen;
 use App\Orchid\Screens\ScenarioListScreen;
 use App\Orchid\Screens\ScenarioListSharedScreen;
 use App\Orchid\Screens\ScenarioPlayScreen;
+use App\Orchid\Screens\SubjectEditScreen;
+use App\Orchid\Screens\SubjectListScreen;
 use App\Orchid\Screens\TaskEditScreen;
 use App\Orchid\Screens\TaskGroupEditScreen;
 use App\Orchid\Screens\User\UserEditScreen;
@@ -173,4 +175,20 @@ Route::screen('user_groups', UserGroupListScreen::class)
         return $trail
             ->parent('platform.index')
             ->push(__('User Group'), route('platform.user_group.list'));
+    });
+
+Route::screen('subject/{subject?}', SubjectEditScreen::class)
+    ->name('platform.subject.edit')
+    ->breadcrumbs(function (Trail $trail) {
+        return $trail
+            ->parent('platform.subject.list')
+            ->push(__('Create'), route('platform.subject.edit'));
+    });
+
+Route::screen('subjects', SubjectListScreen::class)
+    ->name('platform.subject.list')
+    ->breadcrumbs(function (Trail $trail) {
+        return $trail
+            ->parent('platform.index')
+            ->push(__('Subjects'), route('platform.subject.list'));
     });
