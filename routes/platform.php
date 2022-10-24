@@ -19,10 +19,8 @@ use App\Orchid\Screens\ScenarioListOwnScreen;
 use App\Orchid\Screens\ScenarioListScreen;
 use App\Orchid\Screens\ScenarioListSharedScreen;
 use App\Orchid\Screens\ScenarioPlayScreen;
-use App\Orchid\Screens\SchoolYearEditScreen;
-use App\Orchid\Screens\SchoolYearListScreen;
-use App\Orchid\Screens\SubjectEditScreen;
-use App\Orchid\Screens\SubjectListScreen;
+use App\Orchid\Screens\PropertyEditScreen;
+use App\Orchid\Screens\PropertyListScreen;
 use App\Orchid\Screens\TaskEditScreen;
 use App\Orchid\Screens\TaskGroupEditScreen;
 use App\Orchid\Screens\User\UserEditScreen;
@@ -179,34 +177,19 @@ Route::screen('user_groups', UserGroupListScreen::class)
             ->push(__('User Group'), route('platform.user_group.list'));
     });
 
-Route::screen('subject/{subject?}', SubjectEditScreen::class)
-    ->name('platform.subject.edit')
+Route::screen('property/{property?}', PropertyEditScreen::class)
+    ->name('platform.property.edit')
     ->breadcrumbs(function (Trail $trail) {
         return $trail
-            ->parent('platform.subject.list')
-            ->push(__('Create'), route('platform.subject.edit'));
+            ->parent('platform.property.list')
+            ->push(__('Create'), route('platform.property.edit'));
     });
 
-Route::screen('subjects', SubjectListScreen::class)
-    ->name('platform.subject.list')
+Route::screen('properties', PropertyListScreen::class)
+    ->name('platform.property.list')
     ->breadcrumbs(function (Trail $trail) {
         return $trail
             ->parent('platform.index')
-            ->push(__('Subjects'), route('platform.subject.list'));
+            ->push(__('Properties'), route('platform.property.list'));
     });
 
-Route::screen('school_year/{school_year?}', SchoolYearEditScreen::class)
-    ->name('platform.school_year.edit')
-    ->breadcrumbs(function (Trail $trail) {
-        return $trail
-            ->parent('platform.school_year.list')
-            ->push(__('Create'), route('platform.school_year.edit'));
-    });
-
-Route::screen('school_years', SchoolYearListScreen::class)
-    ->name('platform.school_year.list')
-    ->breadcrumbs(function (Trail $trail) {
-        return $trail
-            ->parent('platform.index')
-            ->push(__('School Years'), route('platform.school_year.list'));
-    });

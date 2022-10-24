@@ -2,12 +2,12 @@
 
 namespace App\Orchid\Layouts;
 
-use App\Models\Subject;
+use App\Models\Property;
 use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Layouts\Table;
 use Orchid\Screen\TD;
 
-class SubjectListLayout extends Table
+class PropertyListLayout extends Table
 {
     /**
      * Data source.
@@ -17,7 +17,7 @@ class SubjectListLayout extends Table
      *
      * @var string
      */
-    protected $target = 'subjects';
+    protected $target = 'properties';
 
     /**
      * Get the table cells to be displayed.
@@ -28,9 +28,9 @@ class SubjectListLayout extends Table
     {
         return [
             TD::make('name', __('Name'))
-                ->render(function (Subject $subject) {
-                    return Link::make($subject->name)
-                        ->route('platform.subject.edit', $subject);
+                ->render(function (Property $property) {
+                    return Link::make($property->name)
+                        ->route('platform.property.edit', $property);
                 }),
             TD::make('updated_at', __('Last edit')),
         ];

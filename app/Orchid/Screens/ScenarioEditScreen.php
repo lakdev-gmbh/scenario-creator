@@ -4,8 +4,7 @@ namespace App\Orchid\Screens;
 
 use App\Models\App;
 use App\Models\Scenario;
-use App\Models\SchoolYear;
-use App\Models\Subject;
+use App\Models\Property;
 use App\Models\TaskGroup;
 use App\Models\UserGroup;
 use App\Orchid\Fields\Order;
@@ -68,6 +67,17 @@ class ScenarioEditScreen extends Screen
         ];
     }
 
+    /**
+     * @param Builder $query
+     *
+     * @return Builder
+     */
+    public function scopeType(Builder $query, $type)
+    {
+        return $query->where('type', $type);
+    }
+
+
     public function createOrUpdate(Scenario $scenario, Request $request)
     {
         $scenario->fill($request->get('scenario'));
@@ -78,9 +88,7 @@ class ScenarioEditScreen extends Screen
 
         $scenario->replaceUserGroups($request->input('scenario.user_groups'));
 
-        $scenario->replaceSubjects($request->input('scenario.subjects'));
-
-        $scenario->replaceSchoolYears($request->input('scenario.school_years'));
+        $scenario->replaceProperties($request->input('scenario.properties'));
 
         Alert::info(__('Scenario saved.'));
 
@@ -174,15 +182,16 @@ class ScenarioEditScreen extends Screen
         if ($this->exists) {
             $layout[] =
                 Relation::make('scenario.subjects.')
-                    ->fromModel(Subject::class, 'name', 'watermelon_id')
+                    ->fromModel(Property::class, 'name', 'watermelon_id')
+                    ->applyScope('type','subject')
                     ->multiple()
-                    ->value($this->scenario->subjects)
+                    ->value($this->scenario->properties)
                     ->title('Subjects that this scenario covers');
             $layout[] =
                 Relation::make('scenario.school_years.')
-                    ->fromModel(SchoolYear::class, 'name', 'watermelon_id')
+                    ->fromModel(Property::class, 'name', 'watermelon_id')
                     ->multiple()
-                    ->value($this->scenario->schoolYears)
+                    ->value($this->scenario->properties)
                     ->title('School years that this scenario covers');
             $layout[] =
                 Relation::make('scenario.user_groups.')
