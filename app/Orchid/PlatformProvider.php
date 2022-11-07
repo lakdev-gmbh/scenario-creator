@@ -49,6 +49,10 @@ class PlatformProvider extends OrchidServiceProvider
                 ->icon('user-follow')
                 ->route('platform.user_group.list'),
 
+            Menu::make('Properties')
+                ->icon('book-open')
+                ->route('platform.property.list'),
+
             Menu::make(__('Users'))
                 ->icon('user')
                 ->route('platform.systems.users')

@@ -3,10 +3,12 @@
 namespace App\Orchid\Screens;
 
 use App\Models\App;
+use App\Models\Property;
 use App\Models\Scenario;
 use App\Models\TaskGroup;
 use App\Models\UserGroup;
 use App\Orchid\Fields\Order;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Orchid\Screen\Actions\Button;
@@ -67,6 +69,7 @@ class ScenarioEditScreen extends Screen
         ];
     }
 
+
     public function createOrUpdate(Scenario $scenario, Request $request)
     {
         $scenario->fill($request->get('scenario'));
@@ -76,6 +79,21 @@ class ScenarioEditScreen extends Screen
         $scenario->save();
 
         $scenario->replaceUserGroups($request->input('scenario.user_groups'));
+
+        $subjects = $request->input('scenario.subjects', []);
+        $schoolYears = $request->input('scenario.school_years', []);
+        $topics = $request->input('scenario.topics', []);
+        foreach ($topics as $key => $topic) {
+            if (Property::whereWatermelonId($topic)->doesntExist()) {
+                $topic = new Property([
+                    'name' => $topic,
+                    'type' => 'topic',
+                ]);
+                $topic->save();
+                $topics[$key] = $topic->id();
+            }
+        }
+        $scenario->replaceProperties(array_merge($subjects, $schoolYears, $topics));
 
         Alert::info(__('Scenario saved.'));
 
@@ -146,6 +164,7 @@ class ScenarioEditScreen extends Screen
      * Views.
      *
      * @return \Orchid\Screen\Layout[]|string[]
+     * @throws BindingResolutionException
      */
     public function layout(): array
     {
@@ -167,6 +186,24 @@ class ScenarioEditScreen extends Screen
                 ->placeholder('Brief description'),
         ];
         if ($this->exists) {
+            $layout[] =
+                Relation::make('scenario.subjects.')
+                    ->fromModel(Property::class, 'name', 'watermelon_id')
+                    ->applyScope('type', 'subject')
+                    ->multiple()
+                    ->title('Subjects that this scenario covers');
+            $layout[] =
+                Relation::make('scenario.school_years.')
+                    ->applyScope('type', 'school_year')
+                    ->fromModel(Property::class, 'name', 'watermelon_id')
+                    ->multiple()
+                    ->title('School years that this scenario covers');
+            $layout[] =
+                Select::make('scenario.topics.')
+                    ->fromQuery(Property::query()->type('topic'), 'name', 'watermelon_id')
+                    ->multiple()
+                    ->allowAdd()
+                    ->title('Topics that this scenario covers');
             $layout[] =
                 Relation::make('scenario.user_groups.')
                     ->fromModel(UserGroup::class, 'title', 'watermelon_id')

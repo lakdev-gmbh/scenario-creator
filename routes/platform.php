@@ -19,6 +19,8 @@ use App\Orchid\Screens\ScenarioListOwnScreen;
 use App\Orchid\Screens\ScenarioListScreen;
 use App\Orchid\Screens\ScenarioListSharedScreen;
 use App\Orchid\Screens\ScenarioPlayScreen;
+use App\Orchid\Screens\PropertyEditScreen;
+use App\Orchid\Screens\PropertyListScreen;
 use App\Orchid\Screens\TaskEditScreen;
 use App\Orchid\Screens\TaskGroupEditScreen;
 use App\Orchid\Screens\User\UserEditScreen;
@@ -174,3 +176,20 @@ Route::screen('user_groups', UserGroupListScreen::class)
             ->parent('platform.index')
             ->push(__('User Group'), route('platform.user_group.list'));
     });
+
+Route::screen('property/{property?}', PropertyEditScreen::class)
+    ->name('platform.property.edit')
+    ->breadcrumbs(function (Trail $trail) {
+        return $trail
+            ->parent('platform.property.list')
+            ->push(__('Create'), route('platform.property.edit'));
+    });
+
+Route::screen('properties', PropertyListScreen::class)
+    ->name('platform.property.list')
+    ->breadcrumbs(function (Trail $trail) {
+        return $trail
+            ->parent('platform.index')
+            ->push(__('Properties'), route('platform.property.list'));
+    });
+

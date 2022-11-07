@@ -54,9 +54,31 @@ class Scenario extends Model implements Editable
         return $this->belongsToMany(UserGroup::class, 'scenarios_user_groups', 'scenario_watermelon_id','user_group_watermelon_id');
     }
 
+    public function properties() {
+        return $this->belongsToMany(Property::class, 'scenarios_properties', 'scenario_watermelon_id','property_watermelon_id');
+    }
+
+    public function subjects() {
+        return $this->properties()->type('subject');
+    }
+
+    public function topics() {
+        return $this->properties()->type('topic');
+    }
+
+    public function school_years() {
+        return $this->properties()->type('school_year');
+    }
+
     public function replaceUserGroups(?array $userGroups=[]) {
         $this->userGroups()->detach();
         $this->userGroups()->attach($userGroups);
+        return $this;
+    }
+
+    public function replaceProperties(?array $properties=[]) {
+        $this->properties()->detach();
+        $this->properties()->attach($properties);
         return $this;
     }
 

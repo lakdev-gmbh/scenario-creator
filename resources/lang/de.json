@@ -197,5 +197,8 @@
 
     "Manage roles": "Rollen verwalten",
 
-    "/img/co-financed-EU-en.png": "/img/co-financed-EU-de.png"
+    "/img/co-financed-EU-en.png": "/img/co-financed-EU-de.png",
+    "Subjects that this scenario covers": "Fächer",
+    "School years that this scenario covers": "Schuljahre",
+    "Topics that this scenario covers": "Themen"
 }
