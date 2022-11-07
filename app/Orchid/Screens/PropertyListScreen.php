@@ -16,6 +16,12 @@ class PropertyListScreen extends Screen
      */
     public $name = 'Properties';
 
+
+    /**
+     * @var string
+     */
+    public $permission = 'platform.properties.access_all';
+
     /**
      * Query data.
      *

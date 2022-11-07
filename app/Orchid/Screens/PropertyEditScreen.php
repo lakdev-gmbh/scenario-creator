@@ -14,6 +14,11 @@ use Orchid\Support\Facades\Layout;
 class PropertyEditScreen extends Screen
 {
     /**
+     * @var string
+     */
+    public $permission = 'platform.properties.edit';
+
+    /**
      * Query data.
      *
      * @return array

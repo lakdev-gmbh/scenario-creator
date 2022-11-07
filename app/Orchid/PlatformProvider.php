@@ -50,6 +50,7 @@ class PlatformProvider extends OrchidServiceProvider
                 ->route('platform.user_group.list'),
 
             Menu::make('Properties')
+                ->permission('platform.properties.access_all')
                 ->icon('book-open')
                 ->route('platform.property.list'),
 
@@ -93,7 +94,12 @@ class PlatformProvider extends OrchidServiceProvider
                 ->addPermission('platform.scenario.access_all', __('Access all scenarios'))
                 ->addPermission('platform.scenario.access_own', __('Access own scenarios'))
                 ->addPermission('platform.scenario.access_shared', __('Access shared scenarios'))
-                ->addPermission('platform.scenario.play', __('Play scenarios'))
+                ->addPermission('platform.scenario.play', __('Play scenarios')),
+
+
+            ItemPermission::group(__('Properties'))
+                ->addPermission('platform.properties.access_all', __('List properties'))
+                ->addPermission('platform.properties.edit', __('Create/Edit properties'))
         ];
     }
 }
