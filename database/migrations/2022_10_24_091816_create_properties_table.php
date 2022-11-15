@@ -17,7 +17,8 @@ return new class extends Migration
             $table->uuid('watermelon_id');
             $table->string('name');
             $table->string('type');
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
             $table->softDeletes();
         });
     }
