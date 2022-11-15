@@ -18,7 +18,7 @@ return [
         'scenarios' => Scenario::class,
         'task_groups' => TaskGroup::class,
         'tasks' => Task::class,
-        'property' => Property::class,
+        'properties' => Property::class,
         'scenarios_properties' => ScenariosProperty::class
     ],
 
