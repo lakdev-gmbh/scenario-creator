@@ -15,7 +15,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('scenarios_properties', function (Blueprint $table) {
-            $table->uuid('watermelon_id')->default(Uuid::uuid4()->toString());
+            $table->uuid('watermelon_id');
             $table->softDeletes();
             $table->timestamps();
         });

@@ -24,6 +24,11 @@ class ScenariosProperty extends Model
 
     protected $primaryKey = 'watermelon_id';
 
+    protected $fillable = [
+        'scenario_watermelon_id',
+        'property_watermelon_id',
+    ];
+
     protected $watermelonAttributes = [
         'property_watermelon_id',
         'scenario_watermelon_id',
