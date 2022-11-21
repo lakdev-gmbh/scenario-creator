@@ -9,7 +9,8 @@ use App\Traits\WatermelonId;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Facades\DB;
 use NathanHeffley\LaravelWatermelon\Traits\Watermelon;
 use Orchid\Attachment\Attachable;
 use Orchid\Screen\AsSource;
@@ -55,7 +56,11 @@ class Scenario extends Model implements Editable
     }
 
     public function properties() {
-        return $this->belongsToMany(Property::class, 'scenarios_properties', 'scenario_watermelon_id','property_watermelon_id');
+        return $this
+            ->belongsToMany(Property::class, 'scenarios_properties', 'scenario_watermelon_id','property_watermelon_id')
+            ->wherePivot('deleted_at', null)
+            ->withPivot('watermelon_id')
+            ->withTimestamps();
     }
 
     public function subjects() {
@@ -77,8 +82,23 @@ class Scenario extends Model implements Editable
     }
 
     public function replaceProperties(?array $properties=[]) {
-        $this->properties()->detach();
-        $this->properties()->attach($properties);
+        $oldPropertyIds = $this->properties()->pluck('property_watermelon_id');
+
+        foreach ($properties as $property) {
+            if (!in_array($property, $oldPropertyIds->toArray())) {
+                $newScenarioProperty = new ScenariosProperty([
+                    'scenario_watermelon_id' => $this->getKey(),
+                    'property_watermelon_id' => $property
+                ]);
+                $newScenarioProperty->save();
+            }
+        }
+
+        // Mark rows that are not
+        DB::table('scenarios_properties')
+            ->where('scenario_watermelon_id', $this->getKey())
+            ->whereNotIn('property_watermelon_id', $properties)
+            ->update(['deleted_at' => Date::now()]);
         return $this;
     }
 

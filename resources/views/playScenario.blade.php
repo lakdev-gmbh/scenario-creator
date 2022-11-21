@@ -229,17 +229,26 @@
                         antwort.type = 'number';
                         aufgabeAntworten.appendChild(antwort);
                         break;
+                    case "multiple_choice_image":
                     case "multiple_choice":
                         var possible_answers = Object.values(aufgabeJson['possible_answers']);
 
                         // Jede Auswahlmöglichkeit erstellen
                         for (var l = 0; l < possible_answers.length; l++) {
                             var label = document.createElement('label');
-                            label.innerHTML = possible_answers[l].answer;
                             aufgabeAntworten.appendChild(label);
                             var antwort = document.createElement('input');
                             antwort.type = 'checkbox';
                             label.appendChild(antwort);
+                            if (aufgabeJson['type'] === 'multiple_choice_image') {
+                                let img = document.createElement('img')
+                                img.src =  possible_answers[l].answer;
+                                label.appendChild(img)
+                            } else {
+                                let span = document.createElement('span')
+                                span.innerText = possible_answers[l].answer;
+                                label.appendChild(span);
+                            }
                         }
                         break;
                     case "text":
@@ -268,7 +277,7 @@
 
                     // If else zum Überprüfen der Richtigkeit
                     // TODO: Bei Multiple-Choice-Aufgaben mit Bildern Lösung überprüfen
-                    if (aufgabeJson['type'] === 'multiple_choice') {
+                    if (aufgabeJson['type'] === 'multiple_choice' || aufgabeJson['type'] === 'multiple_choice_image') {
                         for (let y = 0; y < antworten.length; y++) {
                             if (antworten[y].children[0].checked != aufgabeJson['possible_answers']['' + (y + 1)]['is_correct']) {
                                 korrekt = false;
