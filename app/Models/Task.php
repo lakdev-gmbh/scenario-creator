@@ -25,7 +25,7 @@ class Task extends TaskGroupElement
         'title',
         'question',
         'correct_answer',
-        'possible_answers',
+        'possible_answers_string',
         'type',
         'weight',
     ];
@@ -41,5 +41,9 @@ class Task extends TaskGroupElement
             'type' => $this->type,
             'task' => $this->getKey(),
         ]);
+    }
+
+    function getPossibleAnswersStringAttribute() {
+        return $this->attributes['possible_answers'];
     }
 }
