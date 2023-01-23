@@ -2,7 +2,6 @@
 
 namespace App\Orchid\Screens;
 
-use App\Models\App;
 use App\Models\Property;
 use App\Models\Scenario;
 use App\Models\TaskGroup;
@@ -14,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\Link;
+use Orchid\Screen\Fields\CheckBox;
 use Orchid\Screen\Fields\Cropper;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\Relation;
@@ -211,6 +211,10 @@ class ScenarioEditScreen extends Screen
                     ->value($this->scenario->userGroups)
                     ->title('User groups to share this scenario with');
             $layout[] =
+                CheckBox::make('scenario.published')
+                    ->value($this->scenario->published)
+                    ->title('Publish this scenario');
+            $layout[] =
                 Order::make('taskGroups')
                     ->title('Task Groups')
                     ->method('updateTaskGroupOrder')
@@ -220,6 +224,13 @@ class ScenarioEditScreen extends Screen
                     ->route('platform.task_group.edit', [
                         'scenario' => $this->scenario->id(),
                     ]);
+
+            if (Auth::user()->inRole('admin')) {
+                $layout[] =
+                    CheckBox::make('scenario.published_global')
+                        ->value($this->scenario->published)
+                        ->title('ADMIN ONLY: Publish this scenario globally');
+            }
         }
 
 

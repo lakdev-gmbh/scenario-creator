@@ -28,10 +28,12 @@ class UserGroup extends Model
      */
     protected $fillable = [
         'title',
+        'code',
     ];
 
     protected $watermelonAttributes = [
         'title',
+        'code',
     ];
 
     public function users() {

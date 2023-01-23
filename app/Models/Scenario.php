@@ -37,7 +37,9 @@ class Scenario extends Model implements Editable
     protected $watermelonAttributes = [
         'title',
         'description',
-        'image'
+        'image',
+        'published',
+        'published_global',
     ];
 
     public function taskGroups() {
