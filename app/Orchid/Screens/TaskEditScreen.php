@@ -5,6 +5,7 @@ namespace App\Orchid\Screens;
 use App\Models\Scenario;
 use App\Models\Task;
 use App\Models\TaskGroup;
+use App\Orchid\Fields\RadioImage;
 use App\Rules\NumericAnswer;
 use Illuminate\Http\Request;
 use Orchid\Screen\Actions\Button;
@@ -12,6 +13,8 @@ use Orchid\Screen\Fields\CheckBox;
 use Orchid\Screen\Fields\Cropper;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\Matrix;
+use Orchid\Screen\Fields\Radio;
+use Orchid\Screen\Fields\RadioButtons;
 use Orchid\Screen\Fields\Select;
 use Orchid\Screen\Fields\TextArea;
 use Orchid\Screen\Screen;
@@ -90,6 +93,12 @@ class TaskEditScreen extends Screen
         $task->task_group_watermelon_id = $taskGroup->getKey();
         if (!$task->exists) {
             $task->weight = $task->taskGroup->taskGroupElements()->count() - 1;
+        }
+
+        if ($type === Task::MULTIPLE_CHOICE && $task->isSingleChoice()) {
+            $task->options = ['design' => $request->get('design')];
+        } else {
+            $task->options = null;
         }
 
         if ($type === Task::ORDER_TEXT || $type === Task::ORDER_IMAGE){
@@ -190,6 +199,15 @@ class TaskEditScreen extends Screen
                         ])
                         ->title(__('Possible answers'))
                         ->required();
+                if ($this->task->exists && $this->task->isSingleChoice()) {
+                    $layout[] = RadioImage::make('design')
+                        ->title(__('Design'))
+                        ->options([
+                            'stacked' => '/img/mc-var1.png',
+                            'wheel' => '/img/mc-var2.png',
+                        ])
+                        ->value($this->task->options['design'] ?? null);
+                }
                 break;
             case Task::ORDER_TEXT:
             case Task::ORDER_IMAGE:

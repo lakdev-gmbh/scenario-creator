@@ -64,4 +64,18 @@ class Task extends TaskGroupElement
             return ($var['order'] === -1);
         });
     }
+
+    public function isSingleChoice()
+    {
+        if($this->type === self::MULTIPLE_CHOICE || $this->type === self::MULTIPLE_CHOICE_IMAGE) {
+            $correctAnswers = array_filter($this->possible_answers ?? [], function ($var) {
+                return $var['is_correct'] == "1";
+            });
+            if (count($correctAnswers) === 1) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
