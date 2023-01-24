@@ -303,24 +303,39 @@
                         optionsDiv.id = 'options-' + aufgabeJson['watermelon_id'];
                         optionsDiv.className = 'infotextBody';
                         optionsDiv.style = "min-height: 100px;";
-                        aufgabeAntworten.appendChild(answersDiv);
-                        aufgabeAntworten.appendChild(optionsDiv);
                         // Jede Auswahlmöglichkeit erstellen
                         for (var l = 0; l < possible_answers.length; l++) {
 
                             if (aufgabeJson['type'] === 'order_image') {
+                                let div = document.createElement('div')
                                 let img = document.createElement('img')
                                 img.src =  possible_answers[l].answer;
                                 img.setAttribute('data-order', possible_answers[l].order);
-                                optionsDiv.appendChild(img)
+                                if(aufgabeJson['options']['left_to_right']) {
+                                    div.className += " col";
+                                    div.style = "max-width: max-content;"
+                                    answersDiv.style = "min-height: 100px; display: flex;"
+                                    optionsDiv.style = "min-height: 100px; display: flex;"
+                                }
+                                div.appendChild(img)
+                                optionsDiv.appendChild(div)
                             } else {
                                 let div = document.createElement('div')
                                 div.innerText = possible_answers[l].answer;
                                 div.setAttribute('data-order', possible_answers[l].order);
                                 div.className = 'infotextBody';
+                                if(aufgabeJson['options']['left_to_right']) {
+                                    div.className += " col";
+                                    div.style = "max-width: max-content;"
+                                    answersDiv.style = "min-height: 100px; display: flex;"
+                                    optionsDiv.style = "min-height: 100px; display: flex;"
+                                }
                                 optionsDiv.appendChild(div);
                             }
                         }
+
+                        aufgabeAntworten.appendChild(answersDiv);
+                        aufgabeAntworten.appendChild(optionsDiv);
                         break;
                     case "":
                         break;

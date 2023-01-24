@@ -205,5 +205,7 @@
     "Order (1 to N)": "Reihenfolge (1 bis N)",
     "Extra answers": "Zusätzliche Antworten",
     "Add order text Task": "Reihenfolge-Textaufgabe hinzufügen",
-    "Add order image Task": "Reihenfolge-Bildaufgabe hinzufügen"
+    "Add order image Task": "Reihenfolge-Bildaufgabe hinzufügen",
+    "If checked, the answers will be displayed from left to right. Otherwise, from top to bottom.": "Wenn ausgewählt, werden die Antworten von links nach rechts angezeigt. Andernfalls von oben nach unten.",
+    "Left to right": "Von links nach rechts"
 }

@@ -93,6 +93,7 @@ class TaskEditScreen extends Screen
         }
 
         if ($type === Task::ORDER_TEXT || $type === Task::ORDER_IMAGE){
+            $task->options = ['left_to_right' => (bool) $request->get('left_to_right')];
             $extraAnswers = [];
             foreach ($request->get('order_answers_extra') as $extraAnswer) {
                 $extraAnswers[] = ['answer' => $extraAnswer['answer'], 'order' => -1];
@@ -197,6 +198,14 @@ class TaskEditScreen extends Screen
                 } elseif ($this->task->type === Task::ORDER_IMAGE) {
                     $answerField = Cropper::make('answer');
                 }
+
+
+                $layout[] = CheckBox::make('left_to_right')
+                    ->title(__('Left to right'))
+                    ->sendTrueOrFalse()
+                    ->value($this->task->options['left_to_right'] ?? false)
+                    ->help(__('If checked, the answers will be displayed from left to right. Otherwise, from top to bottom.'));
+
                 $layout[] =
                     Matrix::make('order_answers_correct')
                         ->columns([

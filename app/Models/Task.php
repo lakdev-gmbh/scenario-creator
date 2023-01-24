@@ -29,10 +29,12 @@ class Task extends TaskGroupElement
         'possible_answers_string',
         'type',
         'weight',
+        'options',
     ];
 
     protected $casts = [
-        'possible_answers' => 'array'
+        'possible_answers' => 'array',
+        'options' => 'array',
     ];
 
     public function getEditPath()
