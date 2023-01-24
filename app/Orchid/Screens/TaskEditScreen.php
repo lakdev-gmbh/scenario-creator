@@ -91,6 +91,15 @@ class TaskEditScreen extends Screen
         if (!$task->exists) {
             $task->weight = $task->taskGroup->taskGroupElements()->count() - 1;
         }
+
+        if ($type === Task::ORDER_TEXT || $type === Task::ORDER_IMAGE){
+            $extraAnswers = [];
+            foreach ($request->get('order_answers_extra') as $extraAnswer) {
+                $extraAnswers[] = ['answer' => $extraAnswer['answer'], 'order' => -1];
+            }
+            $task->possible_answers = [... $request->get('order_answers_correct'), ...$extraAnswers ];
+        }
+
         $task->save();
 
         Alert::info(__('Task saved.'));
@@ -179,6 +188,42 @@ class TaskEditScreen extends Screen
                             'is_correct' => CheckBox::make('is_correct')->sendTrueOrFalse(),
                         ])
                         ->title(__('Possible answers'))
+                        ->required();
+                break;
+            case Task::ORDER_TEXT:
+            case Task::ORDER_IMAGE:
+                if ($this->task->type === Task::ORDER_TEXT) {
+                    $answerField = TextArea::make('answer');
+                } elseif ($this->task->type === Task::ORDER_IMAGE) {
+                    $answerField = Cropper::make('answer');
+                }
+                $layout[] =
+                    Matrix::make('order_answers_correct')
+                        ->columns([
+                            __('Answer') => 'answer',
+                            __('Order (1 to n)') => 'order',
+                        ])
+                        ->fields([
+                            'answer'   => $answerField,
+                            'order' => Input::make('order')
+                                ->type('number')
+                                ->min(1)
+                                ->required()
+                                ->placeholder(1),
+                        ])
+                        ->title(__('Correct order'))
+                        ->value($this->task->getOrderAnswersCorrect())
+                        ->required();
+                $layout[] =
+                    Matrix::make('order_answers_extra')
+                        ->columns([
+                            __('Answer') => 'answer',
+                        ])
+                        ->fields([
+                            'answer'   => $answerField,
+                        ])
+                        ->value($this->task->getOrderAnswersExtra())
+                        ->title(__('Extra answers'))
                         ->required();
                 break;
             case Task::MULTIPLE_CHOICE_IMAGE:

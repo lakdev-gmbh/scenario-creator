@@ -208,6 +208,18 @@ class TaskGroupEditScreen extends Screen
                         'type' => Task::NUMERIC,
                         'task_group' => $this->taskGroup->id(),
                     ]);
+            $layout[] =
+                Link::make('Add order text Task')
+                    ->route('platform.task.edit', [
+                        'type' => Task::ORDER_TEXT,
+                        'task_group' => $this->taskGroup->id(),
+                    ]);
+            $layout[] =
+                Link::make('Add order image Task')
+                    ->route('platform.task.edit', [
+                        'type' => Task::ORDER_IMAGE,
+                        'task_group' => $this->taskGroup->id(),
+                    ]);
 
         }
         return [

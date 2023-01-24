@@ -9,7 +9,8 @@ class Task extends TaskGroupElement
     const TEXT = 'text';
     const NUMERIC = 'numeric';
     const MULTIPLE_CHOICE_IMAGE = 'multiple_choice_image';
-
+    const ORDER_TEXT = 'order_text';
+    const ORDER_IMAGE = 'order_image';
 
     protected $fillable = [
         'title',
@@ -43,7 +44,22 @@ class Task extends TaskGroupElement
         ]);
     }
 
+    /**
+     * @return mixed
+     */
     function getPossibleAnswersStringAttribute() {
         return $this->attributes['possible_answers'];
+    }
+
+    function getOrderAnswersCorrect() {
+        return array_filter($this->possible_answers ?? [], function ($var) {
+            return ($var['order'] !== -1);
+        });
+    }
+
+    function getOrderAnswersExtra() {
+        return array_filter($this->possible_answers ?? [], function ($var) {
+            return ($var['order'] === -1);
+        });
     }
 }

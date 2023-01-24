@@ -200,5 +200,10 @@
     "/img/co-financed-EU-en.png": "/img/co-financed-EU-de.png",
     "Subjects that this scenario covers": "Fächer",
     "School years that this scenario covers": "Schuljahre",
-    "Topics that this scenario covers": "Themen"
+    "Topics that this scenario covers": "Themen",
+    "Correct order": "Korrekte Reihenfolge",
+    "Order (1 to N)": "Reihenfolge (1 bis N)",
+    "Extra answers": "Zusätzliche Antworten",
+    "Add order text Task": "Reihenfolge-Textaufgabe hinzufügen",
+    "Add order image Task": "Reihenfolge-Bildaufgabe hinzufügen"
 }
