@@ -295,14 +295,19 @@
                     case "order_image":
                     case "order_text":
                         var possible_answers = Object.values(aufgabeJson['possible_answers']);
+                        possible_answers = possible_answers
+                            .map(value => ({ value, sort: Math.random() }))
+                            .sort((a, b) => a.sort - b.sort)
+                            .map(({ value }) => value)
                         var answersDiv = document.createElement('div');
                         answersDiv.id = 'answers-' + aufgabeJson['watermelon_id'];
                         answersDiv.className = 'infotextBody';
-                        answersDiv.style = "min-height: 100px;";
+                        let leftToRightStyle = aufgabeJson['options']['left_to_right']? 'display: flex; flex-wrap: wrap' : '';
+                        answersDiv.style = "min-height: 100px; margin-bottom: 20px;" + leftToRightStyle;
                         var optionsDiv = document.createElement('div');
                         optionsDiv.id = 'options-' + aufgabeJson['watermelon_id'];
                         optionsDiv.className = 'infotextBody';
-                        optionsDiv.style = "min-height: 100px;";
+                        optionsDiv.style = "min-height: 100px;"  + leftToRightStyle;
                         // Jede Auswahlmöglichkeit erstellen
                         for (var l = 0; l < possible_answers.length; l++) {
 
@@ -310,12 +315,10 @@
                                 let div = document.createElement('div')
                                 let img = document.createElement('img')
                                 img.src =  possible_answers[l].answer;
-                                img.setAttribute('data-order', possible_answers[l].order);
+                                div.setAttribute('data-order', possible_answers[l].order);
                                 if(aufgabeJson['options']['left_to_right']) {
                                     div.className += " col";
                                     div.style = "max-width: max-content;"
-                                    answersDiv.style = "min-height: 100px; display: flex;"
-                                    optionsDiv.style = "min-height: 100px; display: flex;"
                                 }
                                 div.appendChild(img)
                                 optionsDiv.appendChild(div)
@@ -327,8 +330,6 @@
                                 if(aufgabeJson['options']['left_to_right']) {
                                     div.className += " col";
                                     div.style = "max-width: max-content;"
-                                    answersDiv.style = "min-height: 100px; display: flex;"
-                                    optionsDiv.style = "min-height: 100px; display: flex;"
                                 }
                                 optionsDiv.appendChild(div);
                             }
