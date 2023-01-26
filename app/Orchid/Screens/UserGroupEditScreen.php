@@ -36,6 +36,11 @@ class UserGroupEditScreen extends Screen
     public $exists = false;
 
     /**
+     * @var UserGroup
+     */
+    private $userGroup;
+
+    /**
      * Query data.
      *
      * @return array
@@ -43,6 +48,7 @@ class UserGroupEditScreen extends Screen
     public function query(UserGroup $userGroup): array
     {
         $this->exists = $userGroup->exists;
+        $this->userGroup = $userGroup;
 
         if ($this->exists) {
             $this->name = 'Edit user group';
@@ -136,6 +142,11 @@ class UserGroupEditScreen extends Screen
                     ->fromModel(User::class, 'name')
                     ->multiple()
                     ->title('Choose users');
+            $layout[] =
+                Input::make('user_group.code')
+                    ->title('Code')
+                    ->value($this->userGroup->code)
+                    ->help('Specify a short descriptive title for this user group.');
         }
         return [
             Layout::rows($layout),

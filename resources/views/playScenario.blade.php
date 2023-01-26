@@ -151,6 +151,42 @@
         </div>
         <p>&nbsp;</p>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5sortable/0.13.3/html5sortable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <script defer>
+        $(document).ready(function () {
+            sortable('div[id^="options"]', {
+                forcePlaceholderSize: true,
+                acceptFrom: 'div[id^="options"], div[id^="answers"]',
+                itemSerializer: function (item, container) {
+                    if (item.node.hasAttribute('data-id')) {
+                        item.id = item.node.getAttribute('data-id')
+                        item.class = item.node.getAttribute('data-class')
+                    }
+                    return item
+                }
+            });
+            sortable('div[id^="answers"]', {
+                forcePlaceholderSize: true,
+                acceptFrom: 'div[id^="options"], div[id^="answers"]',
+                itemSerializer: function (item, container) {
+                    if (item.node.hasAttribute('data-id')) {
+                        item.id = item.node.getAttribute('data-id')
+                        item.class = item.node.getAttribute('data-class')
+                    }
+                    return item
+                }
+            });
+        });
+
+        function updateOrder() {
+            let data = {}
+            data["test"] = sortable('.a', 'serialize')[0].items
+
+        }
+
+    </script>
     <script>
         // Auslesen der Datenbank
         var path = "https://scenario.laknet.de/";
@@ -256,7 +292,51 @@
                         antwort.type = 'text';
                         aufgabeAntworten.appendChild(antwort);
                         break;
-                        // TODO: Multiple-Choice-Aufgaben mit Bildern hinzufügen
+                    case "order_image":
+                    case "order_text":
+                        var possible_answers = Object.values(aufgabeJson['possible_answers']);
+                        var answersDiv = document.createElement('div');
+                        answersDiv.id = 'answers-' + aufgabeJson['watermelon_id'];
+                        answersDiv.className = 'infotextBody';
+                        answersDiv.style = "min-height: 100px;";
+                        var optionsDiv = document.createElement('div');
+                        optionsDiv.id = 'options-' + aufgabeJson['watermelon_id'];
+                        optionsDiv.className = 'infotextBody';
+                        optionsDiv.style = "min-height: 100px;";
+                        // Jede Auswahlmöglichkeit erstellen
+                        for (var l = 0; l < possible_answers.length; l++) {
+
+                            if (aufgabeJson['type'] === 'order_image') {
+                                let div = document.createElement('div')
+                                let img = document.createElement('img')
+                                img.src =  possible_answers[l].answer;
+                                img.setAttribute('data-order', possible_answers[l].order);
+                                if(aufgabeJson['options']['left_to_right']) {
+                                    div.className += " col";
+                                    div.style = "max-width: max-content;"
+                                    answersDiv.style = "min-height: 100px; display: flex;"
+                                    optionsDiv.style = "min-height: 100px; display: flex;"
+                                }
+                                div.appendChild(img)
+                                optionsDiv.appendChild(div)
+                            } else {
+                                let div = document.createElement('div')
+                                div.innerText = possible_answers[l].answer;
+                                div.setAttribute('data-order', possible_answers[l].order);
+                                div.className = 'infotextBody';
+                                if(aufgabeJson['options']['left_to_right']) {
+                                    div.className += " col";
+                                    div.style = "max-width: max-content;"
+                                    answersDiv.style = "min-height: 100px; display: flex;"
+                                    optionsDiv.style = "min-height: 100px; display: flex;"
+                                }
+                                optionsDiv.appendChild(div);
+                            }
+                        }
+
+                        aufgabeAntworten.appendChild(answersDiv);
+                        aufgabeAntworten.appendChild(optionsDiv);
+                        break;
                     case "":
                         break;
                 }
@@ -280,6 +360,20 @@
                     if (aufgabeJson['type'] === 'multiple_choice' || aufgabeJson['type'] === 'multiple_choice_image') {
                         for (let y = 0; y < antworten.length; y++) {
                             if (antworten[y].children[0].checked != aufgabeJson['possible_answers']['' + (y + 1)]['is_correct']) {
+                                korrekt = false;
+                                break;
+                            }
+                        }
+                    }
+                    else if (aufgabeJson['type'] === 'order_image' || aufgabeJson['type'] === 'order_text') {
+                        for (let y = 0; y < antworten[0].children.length; y++) {
+                            if (antworten[0].children[y].getAttribute('data-order') != y+1) {
+                                korrekt = false;
+                                break;
+                            }
+                        }
+                        for (let y = 0; y < antworten[1].children.length; y++) {
+                            if (antworten[1].children[y].getAttribute('data-order') != -1) {
                                 korrekt = false;
                                 break;
                             }

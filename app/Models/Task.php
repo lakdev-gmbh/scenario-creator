@@ -9,7 +9,8 @@ class Task extends TaskGroupElement
     const TEXT = 'text';
     const NUMERIC = 'numeric';
     const MULTIPLE_CHOICE_IMAGE = 'multiple_choice_image';
-
+    const ORDER_TEXT = 'order_text';
+    const ORDER_IMAGE = 'order_image';
 
     protected $fillable = [
         'title',
@@ -28,10 +29,12 @@ class Task extends TaskGroupElement
         'possible_answers_string',
         'type',
         'weight',
+        'options',
     ];
 
     protected $casts = [
-        'possible_answers' => 'array'
+        'possible_answers' => 'array',
+        'options' => 'array',
     ];
 
     public function getEditPath()
@@ -43,7 +46,36 @@ class Task extends TaskGroupElement
         ]);
     }
 
+    /**
+     * @return mixed
+     */
     function getPossibleAnswersStringAttribute() {
         return $this->attributes['possible_answers'];
+    }
+
+    function getOrderAnswersCorrect() {
+        return array_filter($this->possible_answers ?? [], function ($var) {
+            return ($var['order'] !== -1);
+        });
+    }
+
+    function getOrderAnswersExtra() {
+        return array_filter($this->possible_answers ?? [], function ($var) {
+            return ($var['order'] === -1);
+        });
+    }
+
+    public function isSingleChoice()
+    {
+        if($this->type === self::MULTIPLE_CHOICE || $this->type === self::MULTIPLE_CHOICE_IMAGE) {
+            $correctAnswers = array_filter($this->possible_answers ?? [], function ($var) {
+                return $var['is_correct'] == "1";
+            });
+            if (count($correctAnswers) === 1) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

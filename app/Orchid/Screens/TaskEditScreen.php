@@ -5,6 +5,7 @@ namespace App\Orchid\Screens;
 use App\Models\Scenario;
 use App\Models\Task;
 use App\Models\TaskGroup;
+use App\Orchid\Fields\RadioImage;
 use App\Rules\NumericAnswer;
 use Illuminate\Http\Request;
 use Orchid\Screen\Actions\Button;
@@ -12,6 +13,8 @@ use Orchid\Screen\Fields\CheckBox;
 use Orchid\Screen\Fields\Cropper;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\Matrix;
+use Orchid\Screen\Fields\Radio;
+use Orchid\Screen\Fields\RadioButtons;
 use Orchid\Screen\Fields\Select;
 use Orchid\Screen\Fields\TextArea;
 use Orchid\Screen\Screen;
@@ -91,6 +94,22 @@ class TaskEditScreen extends Screen
         if (!$task->exists) {
             $task->weight = $task->taskGroup->taskGroupElements()->count() - 1;
         }
+
+        if ($type === Task::MULTIPLE_CHOICE && $task->isSingleChoice()) {
+            $task->options = ['design' => $request->get('design')];
+        } else {
+            $task->options = null;
+        }
+
+        if ($type === Task::ORDER_TEXT || $type === Task::ORDER_IMAGE){
+            $task->options = ['left_to_right' => (bool) $request->get('left_to_right')];
+            $extraAnswers = [];
+            foreach ($request->get('order_answers_extra') as $extraAnswer) {
+                $extraAnswers[] = ['answer' => $extraAnswer['answer'], 'order' => -1];
+            }
+            $task->possible_answers = [... $request->get('order_answers_correct'), ...$extraAnswers ];
+        }
+
         $task->save();
 
         Alert::info(__('Task saved.'));
@@ -179,6 +198,59 @@ class TaskEditScreen extends Screen
                             'is_correct' => CheckBox::make('is_correct')->sendTrueOrFalse(),
                         ])
                         ->title(__('Possible answers'))
+                        ->required();
+                if ($this->task->exists && $this->task->isSingleChoice()) {
+                    $layout[] = RadioImage::make('design')
+                        ->title(__('Design'))
+                        ->options([
+                            'stacked' => '/img/mc-var1.png',
+                            'wheel' => '/img/mc-var2.png',
+                        ])
+                        ->value($this->task->options['design'] ?? null);
+                }
+                break;
+            case Task::ORDER_TEXT:
+            case Task::ORDER_IMAGE:
+                if ($this->task->type === Task::ORDER_TEXT) {
+                    $answerField = TextArea::make('answer');
+                } elseif ($this->task->type === Task::ORDER_IMAGE) {
+                    $answerField = Cropper::make('answer');
+                }
+
+
+                $layout[] = CheckBox::make('left_to_right')
+                    ->title(__('Left to right'))
+                    ->sendTrueOrFalse()
+                    ->value($this->task->options['left_to_right'] ?? false)
+                    ->help(__('If checked, the answers will be displayed from left to right. Otherwise, from top to bottom.'));
+
+                $layout[] =
+                    Matrix::make('order_answers_correct')
+                        ->columns([
+                            __('Answer') => 'answer',
+                            __('Order (1 to n)') => 'order',
+                        ])
+                        ->fields([
+                            'answer'   => $answerField,
+                            'order' => Input::make('order')
+                                ->type('number')
+                                ->min(1)
+                                ->required()
+                                ->placeholder(1),
+                        ])
+                        ->title(__('Correct order'))
+                        ->value($this->task->getOrderAnswersCorrect())
+                        ->required();
+                $layout[] =
+                    Matrix::make('order_answers_extra')
+                        ->columns([
+                            __('Answer') => 'answer',
+                        ])
+                        ->fields([
+                            'answer'   => $answerField,
+                        ])
+                        ->value($this->task->getOrderAnswersExtra())
+                        ->title(__('Extra answers'))
                         ->required();
                 break;
             case Task::MULTIPLE_CHOICE_IMAGE:
