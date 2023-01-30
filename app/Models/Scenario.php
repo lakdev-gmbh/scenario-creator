@@ -54,7 +54,11 @@ class Scenario extends Model implements Editable
     }
 
     public function userGroups() {
-        return $this->belongsToMany(UserGroup::class, 'scenarios_user_groups', 'scenario_watermelon_id','user_group_watermelon_id');
+        return $this
+            ->belongsToMany(UserGroup::class, 'scenarios_user_groups', 'scenario_watermelon_id','user_group_watermelon_id')
+            ->wherePivot('deleted_at', null)
+            ->withPivot('watermelon_id')
+            ->withTimestamps();
     }
 
     public function properties() {
@@ -78,8 +82,21 @@ class Scenario extends Model implements Editable
     }
 
     public function replaceUserGroups(?array $userGroups=[]) {
-        $this->userGroups()->detach();
-        $this->userGroups()->attach($userGroups);
+        $oldUserGroupIds = $this->userGroups()->pluck('user_group_watermelon_id');
+        foreach ($userGroups as $userGroup) {
+            if (!in_array($userGroup, $oldUserGroupIds->toArray())) {
+                $newScenarioUserGroup = new ScenariosUserGroup([
+                    'scenario_watermelon_id' => $this->getKey(),
+                    'user_group_watermelon_id' => $userGroup,
+                ]);
+                $newScenarioUserGroup->save();
+            }
+        }
+        // Mark rows that are not in the new list as deleted
+        DB::table('scenarios_user_groups')
+            ->where('scenario_watermelon_id', $this->getKey())
+            ->whereNotIn('user_group_watermelon_id', $userGroups)
+            ->update(['deleted_at' => Date::now()]);
         return $this;
     }
 
@@ -96,7 +113,7 @@ class Scenario extends Model implements Editable
             }
         }
 
-        // Mark rows that are not
+        // Mark rows that are not in the new list as deleted
         DB::table('scenarios_properties')
             ->where('scenario_watermelon_id', $this->getKey())
             ->whereNotIn('property_watermelon_id', $properties)
