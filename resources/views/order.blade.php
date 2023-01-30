@@ -10,7 +10,7 @@
         <tbody class="{{ $listClass }}">
         @foreach($editables as $editable)
             <tr data-id="{{ $editable->getKey() }}" data-class="{{ get_class($editable) }}">
-                <td><x-orchid-icon path="menu"/> {{ $editable->title }}</td>
+                <td><x-orchid-icon path="menu"/> {{ $editable->title }} {{ ($editable instanceof \App\Models\TaskGroupElement)? '(' . ($editable->type  ?? 'infotext') . ')' : ''}}</td>
                 <td>
                     <a href="{{ $editable->getEditPath() }}">
                         <button>{{ __('Edit') }}</button>

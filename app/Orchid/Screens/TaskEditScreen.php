@@ -199,15 +199,18 @@ class TaskEditScreen extends Screen
                         ])
                         ->title(__('Possible answers'))
                         ->required();
-                if ($this->task->exists && $this->task->isSingleChoice()) {
-                    $layout[] = RadioImage::make('design')
-                        ->title(__('Design'))
-                        ->options([
-                            'stacked' => '/img/mc-var1.png',
-                            'wheel' => '/img/mc-var2.png',
-                        ])
-                        ->value($this->task->options['design'] ?? null);
-                }
+                // TODO: add in design
+//                if ($this->task->exists && $this->task->isSingleChoice()) {
+//                    $layout[] = RadioImage::make('design')
+//                        ->title(__('Design'))
+//                        ->options([
+//                            // TODO: update with new images
+//                            'standard' => '/img/mc-var1.png',
+//                            'stacked' => '/img/mc-var1.png',
+//                            'wheel' => '/img/mc-var2.png',
+//                        ])
+//                        ->value($this->task->options['design'] ?? null);
+//                }
                 break;
             case Task::ORDER_TEXT:
             case Task::ORDER_IMAGE:

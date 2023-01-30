@@ -9,6 +9,7 @@ use App\Models\TaskGroup;
 use App\Models\TaskGroupElement;
 use App\Orchid\Fields\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Fields\Input;
@@ -216,6 +217,7 @@ class TaskGroupEditScreen extends Screen
                     ]);
             $layout[] =
                 Link::make('Add order image Task')
+                    ->canSee(Auth::user()->inRole('admin'))
                     ->route('platform.task.edit', [
                         'type' => Task::ORDER_IMAGE,
                         'task_group' => $this->taskGroup->id(),
