@@ -32,6 +32,8 @@ class Scenario extends Model implements Editable
         'description',
         'image',
         'user_id',
+        'published',
+        'published_global',
     ];
 
     protected $watermelonAttributes = [
@@ -83,6 +85,7 @@ class Scenario extends Model implements Editable
 
     public function replaceUserGroups(?array $userGroups=[]) {
         $oldUserGroupIds = $this->userGroups()->pluck('user_group_watermelon_id');
+        $userGroups = $userGroups ?? [];
         foreach ($userGroups as $userGroup) {
             if (!in_array($userGroup, $oldUserGroupIds->toArray())) {
                 $newScenarioUserGroup = new ScenariosUserGroup([
