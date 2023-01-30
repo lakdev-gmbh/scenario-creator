@@ -44,6 +44,11 @@ class Scenario extends Model implements Editable
         'published_global',
     ];
 
+    protected $casts = [
+        'published' => 'boolean',
+        'published_global' => 'boolean',
+    ];
+
     public function taskGroups() {
         return $this->hasMany(TaskGroup::class);
     }

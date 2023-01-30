@@ -213,6 +213,7 @@ class ScenarioEditScreen extends Screen
             $layout[] =
                 CheckBox::make('scenario.published')
                     ->value($this->scenario->published)
+                    ->sendTrueOrFalse()
                     ->title('Publish this scenario');
             $layout[] =
                 Order::make('taskGroups')
@@ -228,7 +229,8 @@ class ScenarioEditScreen extends Screen
             if (Auth::user()->inRole('admin')) {
                 $layout[] =
                     CheckBox::make('scenario.published_global')
-                        ->value($this->scenario->published)
+                        ->value($this->scenario->published_global)
+                        ->sendTrueOrFalse()
                         ->title('ADMIN ONLY: Publish this scenario globally');
             }
         }
