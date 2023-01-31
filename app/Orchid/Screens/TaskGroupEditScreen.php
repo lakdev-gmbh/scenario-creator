@@ -184,6 +184,13 @@ class TaskGroupEditScreen extends Screen
                 Link::make('Add Info Text')
                     ->route('platform.info_text.edit', [
                         'task_group' => $this->taskGroup->id(),
+                        'type' => InfoText::INFO_TEXT,
+                    ]);
+            $layout[] =
+                Link::make('Add Speech Bubble')
+                    ->route('platform.info_text.edit', [
+                        'task_group' => $this->taskGroup->id(),
+                        'type' => InfoText::SPEECH_BUBBLE,
                     ]);
             $layout[] =
                 Link::make('Add multiple choice Task')

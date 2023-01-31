@@ -182,7 +182,8 @@ class ScenarioEditScreen extends Screen
             TextArea::make('scenario.description')
                 ->title('Description')
                 ->required()
-                ->rows(3)
+                ->rows(6)
+                ->maxlength(420)
                 ->placeholder('Brief description'),
         ];
         if ($this->exists) {

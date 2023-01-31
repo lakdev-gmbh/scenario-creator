@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\Quill;
+use Orchid\Screen\Fields\TextArea;
 use Orchid\Screen\Screen;
 use Orchid\Support\Facades\Alert;
 use Orchid\Support\Facades\Layout;
@@ -39,12 +40,19 @@ class InfoTextEditScreen extends Screen
     public $exists = false;
 
     /**
+     * @var InfoText
+     */
+    public $infoText;
+
+    /**
      * Query data.
      *
      * @return array
      */
-    public function query(TaskGroup $taskGroup, InfoText $infoText): array
+    public function query(TaskGroup $taskGroup, $type, InfoText $infoText): array
     {
+        $infoText->type = $type;
+        $this->infoText = $infoText;
         $this->exists = $infoText->exists;
 
         if ($this->exists) {
@@ -55,12 +63,17 @@ class InfoTextEditScreen extends Screen
         ];
     }
 
-    public function createOrUpdate(TaskGroup $taskGroup, Request $request, ?InfoText $infoText = null )
+    public function createOrUpdate(
+        TaskGroup $taskGroup,
+        $type,
+        Request $request,
+        ?InfoText $infoText = null )
     {
         if (is_null($infoText)) {
             $infoText = new InfoText();
         }
         $infoText->fill($request->get('info_text'));
+        $infoText->type = $type;
         $infoText->task_group_watermelon_id = $taskGroup->getKey();
         if (!$infoText->exists) {
             $infoText->weight = $infoText->taskGroup->taskGroupElements()->count() - 1;
@@ -83,7 +96,7 @@ class InfoTextEditScreen extends Screen
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function remove(TaskGroup $taskGroup, InfoText $infoText)
+    public function remove(TaskGroup $taskGroup, $type, InfoText $infoText)
     {
         $infoText->delete();
 
@@ -135,11 +148,23 @@ class InfoTextEditScreen extends Screen
                 ->title('Title')
                 ->required()
                 ->help(__('Specify a title for this info text.')),
-
-            Quill::make('info_text.body')
-                ->title('Info Text')
-                ->required(),
         ];
+
+
+        switch ($this->infoText->type) {
+            case InfoText::INFO_TEXT:
+                $layout[] = Quill::make('info_text.body')
+                    ->title('Info Text')
+                    ->required();
+                break;
+            case InfoText::SPEECH_BUBBLE:
+                $layout[] = TextArea::make('info_text.body')
+                    ->title('Speech bubble text')
+                    ->rows(6)
+                    ->maxlength(420)
+                    ->required();
+                break;
+        }
         return [
             Layout::rows($layout)
         ];

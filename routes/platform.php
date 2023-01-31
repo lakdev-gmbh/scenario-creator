@@ -152,7 +152,7 @@ Route::screen('playscenario/{scenario?}', ScenarioPlayScreen::class)
 Route::screen('task_group/{scenario}/{task_group?}', TaskGroupEditScreen::class)
     ->name('platform.task_group.edit');
 
-Route::screen('info_text/{task_group}/{info_text?}', InfoTextEditScreen::class)
+Route::screen('info_text/{task_group}/{type}/{info_text?}', InfoTextEditScreen::class)
     ->name('platform.info_text.edit');
 
 Route::screen('task/{task_group}/{type}/{task?}', TaskEditScreen::class)
