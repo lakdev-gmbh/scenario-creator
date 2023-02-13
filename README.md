@@ -26,3 +26,9 @@
 1. Run docker desktop
 2. `ddev start`
 3. `ddev launch`
+
+# Deployment
+
+Deploy like any other Laravel application. Further instructions:
+
+- [Orchid installation](https://orchid.software/en/docs/installation/)
