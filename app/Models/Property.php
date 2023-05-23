@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use NathanHeffley\LaravelWatermelon\Traits\Watermelon;
 use Orchid\Attachment\Attachable;
 use Orchid\Screen\AsSource;
+use Spatie\Translatable\HasTranslations;
 
 class Property extends Model
 {
@@ -22,6 +23,8 @@ class Property extends Model
     use Uuids;
     use WatermelonId;
     use BeautifulTimestamps;
+    use HasTranslations;
+    public $translatable = ['name'];
 
     protected $primaryKey = 'watermelon_id';
 

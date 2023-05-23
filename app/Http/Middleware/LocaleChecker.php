@@ -22,6 +22,9 @@ class LocaleChecker
     {
         if (Session::has('locale')) {
             App::setLocale(Session::get('locale'));
+        } elseif ($locale = $request->getPreferredLanguage(array_keys(self::getAvailableLocales()))) {
+            App::setLocale($locale);
+        } else {
             App::setLocale(config('app.locale'));
         }
         return $next($request);
