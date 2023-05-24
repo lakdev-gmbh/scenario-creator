@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\LocaleChecker;
 use App\Models\InfoText;
 use App\Models\Property;
 use App\Models\Scenario;
@@ -13,7 +14,9 @@ return [
 
     'route' => env('WATERMELON_ROUTE', '/sync'),
 
-    'middleware' => [],
+    'middleware' => [
+        LocaleChecker::class
+    ],
 
     'models' => [
         'info_texts' => InfoText::class,
