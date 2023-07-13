@@ -110,6 +110,12 @@ class TaskEditScreen extends Screen
             $task->possible_answers = [... $request->get('order_answers_correct'), ...$extraAnswers ];
         }
 
+        if ($type === Task::HINTED_FILL_IN_THE_BLANK) {
+            $hintedAnswer = $request->get('hinted_answer');
+            $hintsIndexes = array_keys(str_split($hintedAnswer), '_');
+            $task->options = ['hints_indexes' => $hintsIndexes, 'hinted_answer' => $hintedAnswer];
+        }
+
         $task->save();
 
         Alert::info(__('Task saved.'));
@@ -269,6 +275,22 @@ class TaskEditScreen extends Screen
                         ])
                         ->title(__('Possible answers'))
                         ->required();
+                break;
+
+            case Task::HINTED_FILL_IN_THE_BLANK:
+                $layout[] = Input::make('task.correct_answer')
+                    ->title(__('Correct answer'))
+                    ->required()
+                    ->help(__('Specify the correct answer to the question'));
+//                $layout[] = Input::make('fill_in_the_blank_hints')
+//                    ->title(__('Indices (comma seperated) of the characters that should be hinted'))
+//                    ->required()
+//                    ->help(__('Format: 1,3,5,7'));
+                $layout[] = Input::make('hinted_answer')
+                    ->title(__('Hinted answer to be shown to the player (use underscores _)'))
+                    ->value($this->task->options['hinted_answer'])
+                    ->required()
+                    ->help(__('Format: if correct answer is "14,7%" hinted answer can be "1_,_%". Hinted answer needs to be the same size as correct answer.'));
                 break;
             case Task::NUMERIC:
                 $layout[] = Input::make('task.correct_answer')

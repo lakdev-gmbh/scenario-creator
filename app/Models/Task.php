@@ -9,6 +9,7 @@ class Task extends TaskGroupElement
     const TEXT = 'text';
     const NUMERIC = 'numeric';
     const MULTIPLE_CHOICE_IMAGE = 'multiple_choice_image';
+    const HINTED_FILL_IN_THE_BLANK = 'hinted_fill_in_the_blank';
     const ORDER_TEXT = 'order_text';
     const ORDER_IMAGE = 'order_image';
 

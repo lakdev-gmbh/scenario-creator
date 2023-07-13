@@ -211,6 +211,12 @@ class TaskGroupEditScreen extends Screen
                         'task_group' => $this->taskGroup->id(),
                     ]);
             $layout[] =
+                Link::make('Add hinted fill in the blank Task')
+                    ->route('platform.task.edit', [
+                        'type' => Task::HINTED_FILL_IN_THE_BLANK,
+                        'task_group' => $this->taskGroup->id(),
+                    ]);
+            $layout[] =
                 Link::make('Add numeric Task')
                     ->route('platform.task.edit', [
                         'type' => Task::NUMERIC,
