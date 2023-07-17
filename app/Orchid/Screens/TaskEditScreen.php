@@ -288,7 +288,7 @@ class TaskEditScreen extends Screen
 //                    ->help(__('Format: 1,3,5,7'));
                 $layout[] = Input::make('hinted_answer')
                     ->title(__('Hinted answer to be shown to the player (use underscores _)'))
-                    ->value($this->task->options['hinted_answer'])
+                    ->value($this->task->options['hinted_answer'] ?? [])
                     ->required()
                     ->help(__('Format: if correct answer is "14,7%" hinted answer can be "1_,_%". Hinted answer needs to be the same size as correct answer.'));
                 break;

@@ -79,4 +79,11 @@ class Task extends TaskGroupElement
 
         return false;
     }
+
+    public function toWatermelonArray(): array
+    {
+        $array = parent::toWatermelonArray();
+        $array['options'] = $this->attributes['options'];;
+        return $array;
+    }
 }
